@@ -9,7 +9,8 @@ def tableOne(df, var_vec, category_var=None, all_dict=None,
                 show_na=False,
                 only_indicator_1 = False,
                 verbose=False,
-                cat_vars_ordered = ['ucodr130', 'dcat_i']):
+                cat_vars_ordered = ['ucodr130', 'dcat_i'],
+                var_type_identifier = 'type'): #Specify a variable type dataframe, including the keys. Use existing function to creat.
     """Reweite the function enerated primiarily by GPT"""
 
     return(df.head(2))
