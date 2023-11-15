@@ -1,1 +1,1 @@
-from .table_funs import tableOne
+from .table_funs import tableOne as tableOne
