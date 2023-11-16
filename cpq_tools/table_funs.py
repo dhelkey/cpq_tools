@@ -1,10 +1,7 @@
-import pandas as pd
-
-
-
-
 
 #Functions for formatting dataframes, constructing summarys ets
+import pandas as pd
+
 def tableOne(df, var_vec, category_var=None, all_dict=None,
                 show_na=False,
                 only_indicator_1 = False,
@@ -17,10 +14,6 @@ def tableOne(df, var_vec, category_var=None, all_dict=None,
 
 
     #Want it to have "All" functionality, the ability BUT NOT THE REQUIREMENT to recode values 
-
-
-
-
 
 
     # required_vars = ['categorical_vars_use', 'cont_vars_use', 'indicator_vars_use','mort_vars_use', 'var_dict_list', 'var_name_dict']
