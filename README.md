@@ -42,3 +42,24 @@ repo_name = 'cpq_tools'
 zip_file_name = f'{repo_name}.zip'
 import_package_from_zip(zip_file_name, repo_name, remove_zip=False)
 ```
+
+
+# Package Usage
+
+
+### `process_excel_variables` Function Usage
+
+The `process_excel_variable_file` function processes Excel files (.xls or .xlsx) containing variable data. It outputs a pandas DataFrame detailing variable names, descriptions, and types, and a dictionary mapping variable names to their possible values.
+
+
+```python
+from your_module import process_excel_variables
+
+# Call the function with the file path and column names
+variable_description_df, variable_key_dict = process_excel_variable_file(
+    'data/state_data_documentation.xlsx',
+    var_col="Variable", 
+    desc_col="Description/Label", 
+    type_col="Type",
+    values_col='Values'
+)
