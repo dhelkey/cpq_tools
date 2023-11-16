@@ -15,7 +15,6 @@ def tableOne(df, var_vec, category_var=None, all_dict=None,
 
     #Want it to have "All" functionality, the ability BUT NOT THE REQUIREMENT to recode values 
 
-
     # required_vars = ['categorical_vars_use', 'cont_vars_use', 'indicator_vars_use','mort_vars_use', 'var_dict_list', 'var_name_dict']
     # # if not all(var in globals() for var in required_vars):
     # #     raise ValueError("All required variables must be defined in the global scope: " + ', '.join(required_vars))

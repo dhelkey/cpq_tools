@@ -60,3 +60,31 @@ variable_description_df, variable_key_dict = process_excel_variable_file(
     type_col="Type",
     values_col='Values'
 )
+
+
+
+
+EXAMPLES
+
+
+import requests
+from io import BytesIO
+from zipfile import ZipFile
+
+def download_github_repo_with_requests(repo_url, branch='main', target_dir='downloaded_repository'):
+    url = f"{repo_url}/archive/refs/heads/{branch}.zip"
+    response = requests.get(url)
+    zipfile = ZipFile(BytesIO(response.content))
+    zipfile.extractall(path=target_dir)
+
+download_github_repo_with_requests('https://github.com/dhelkey/cpq_tools')
+
+
+
+import wget
+
+def download_github_repo_with_wget(repo_url, branch='main', target_file='downloaded_repository.zip'):
+    url = f"{repo_url}/archive/refs/heads/{branch}.zip"
+    wget.download(url, target_file)
+
+download_github_repo_with_wget('https://github.com/dhelkey/cpq_tools')
