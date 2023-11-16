@@ -18,10 +18,11 @@ wget -O cpq_tools-main.zip https://github.com/dhelkey/cpq_tools/archive/refs/hea
 ```
 import os
 import sys
-import shutil
 import zipfile
 
 def import_package_from_zip(zip_file_name, repo_name, remove_zip=False):
+    print(f"Current Working Directory: {os.getcwd()}")
+
     # Construct the full path to the zip file
     zip_file_path = os.path.join(os.getcwd(), zip_file_name)
     print(f"Zip file path: {zip_file_path}")
@@ -30,39 +31,34 @@ def import_package_from_zip(zip_file_name, repo_name, remove_zip=False):
     temp_dir = os.path.join(os.getcwd(), "_TEMP")
     print(f"Temporary directory: {temp_dir}")
 
-    # Construct the target directory for the extracted content
-    target_dir = os.path.join(temp_dir, repo_name + "-main")
-    print(f"Target directory: {target_dir}")
-
-    # Create the target directory if it doesn't exist
-    os.makedirs(target_dir, exist_ok=True)
-
     # Extract the zip file
     with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-        print(f"Extracting zip file to {target_dir}")
-        zip_ref.extractall(target_dir)
+        zip_ref.extractall(temp_dir)
+        # Dynamically find the first directory in the zip file
+        top_level_dir = next((name for name in zip_ref.namelist() if name.endswith('/')), '')
+        print(f"Top-level directory in the zip: {top_level_dir}")
 
     # Construct the package directory path
-    package_dir = os.path.join(target_dir, repo_name)
+    package_dir = os.path.join(temp_dir, top_level_dir, repo_name)
     print(f"Package directory: {package_dir}")
 
-    # Append the package directory to the system path
-    sys.path.append(package_dir)
-    print(f"Package directory added to system path")
+    # Append the package directory to the system path if it exists
+    if os.path.exists(package_dir):
+        sys.path.append(package_dir)
+        print(f"Package directory added to system path: {package_dir}")
+    else:
+        print(f"Package directory does not exist: {package_dir}")
+        return
 
     # Remove the zip file if specified
     if remove_zip:
-        print(f"Removing zip file: {zip_file_path}")
         os.remove(zip_file_path)
 
-# Specify the repository name
 repo_name = 'cpq_tools'
-zip_file_name = f'{repo_name}-main.zip'
+zip_file_name = f'{repo_name}.zip'
 
-# Call the function to import the package from zip
 import_package_from_zip(zip_file_name, repo_name, remove_zip=False)
 
-# Import package
 from cpq_tools import tableOne
 ```
 
