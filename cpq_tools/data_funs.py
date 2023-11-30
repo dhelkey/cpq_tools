@@ -6,7 +6,8 @@ import os
 def process_excel_variable_file(file_path, var_col='variable', desc_col='description', type_col='type', values_col=None, sheet_number=0, verbose=False):
     """
     Processes an Excel file (.xls or .xlsx) to generate a DataFrame of variable descriptions and a dictionary of variable values.
-
+    NOTE - Uses excel, CSV is overwhelmed by including the key within a column.
+    
     Parameters:
     file_path (str): Path to the Excel file.
     var_col (str): Column name for variables.
