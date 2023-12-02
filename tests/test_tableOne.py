@@ -1,9 +1,8 @@
 # #Test the table one function
 
-
 import unittest
 import pandas as pd
-from cpq_tools.table_funs import tableOne
+from cpq_tools.report_functions import tableOne
 
 print(15)
 

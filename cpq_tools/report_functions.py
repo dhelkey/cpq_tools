@@ -1,8 +1,10 @@
 
 #Functions for formatting dataframes, constructing summarys ets
+#Useful for constructing reports
+#Use common API, var
 import pandas as pd
 
-def tableOne(df, var_vec, category_var=None, all_dict=None,
+def tableOne(df, variable_vec, category_var=None, all_dict=None,
                 show_na=False,
                 only_indicator_1 = False,
                 verbose=False,
@@ -10,7 +12,7 @@ def tableOne(df, var_vec, category_var=None, all_dict=None,
                 var_type_identifier = 'type'): #Specify a variable type dataframe, including the keys. Use existing function to creat.
     """Reweite the function enerated primiarily by GPT"""
 
-    return(df.head(2))
+    return(df.head(2)) #This should break the tests for right now
 
 
     #Want it to have "All" functionality, the ability BUT NOT THE REQUIREMENT to recode values 
@@ -54,16 +56,16 @@ def tableOne(df, var_vec, category_var=None, all_dict=None,
     #     raise ValueError("category_var must be defined.")
 
     # all_vars = categorical_vars_use + cont_vars_use + indicator_vars_use + mort_vars_use
-    # if not set(var_vec).issubset(set(all_vars)):
-    #     offending_vars = list(set(var_vec) - set(all_vars))
-    #     raise ValueError(f"All elements of var_vec must be in either categorical_vars_use, cont_vars_use, or indicator_vars_use. Offending vars: {offending_vars}")
+    # if not set(variable_vec).issubset(set(all_vars)):
+    #     offending_vars = list(set(variable_vec) - set(all_vars))
+    #     raise ValueError(f"All elements of variable_vec must be in either categorical_vars_use, cont_vars_use, or indicator_vars_use. Offending vars: {offending_vars}")
 
     # if category_var not in var_dict_list:
     #     raise ValueError(f"{category_var}  must be in var_dict_list.")
 
 
     # category_var_vals = df.sort_values(by=category_var)[category_var].unique()
-    # var_vec_vals_dict = {var: df[var].unique().tolist() for var in var_vec}
+    # variable_vec_vals_dict = {var: df[var].unique().tolist() for var in variable_vec}
 
     # out_dict = {}
 
@@ -82,7 +84,7 @@ def tableOne(df, var_vec, category_var=None, all_dict=None,
     #         col_name = var_dict_list[category_var][name_of_df]
     #     else:
     #         col_name = name_of_df if name_of_df in all_dict else var_dict_list[category_var][name_of_df]
-    #     for var in var_vec:
+    #     for var in variable_vec:
     #         first_row = True
     #         if var in cont_vars_use:
     #             out_str = contVarFun(df_temp, var)

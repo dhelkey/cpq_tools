@@ -1,1 +1,1 @@
-from .table_funs import tableOne as tableOne
+from .report_functions import tableOne as tableOne
