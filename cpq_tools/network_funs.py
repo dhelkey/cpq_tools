@@ -31,6 +31,10 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     """
     df = df_in.copy()
 
+    #Ensure nodes are treated as strings
+    df[from_var] = df[from_var].astype(str)
+    df[to_var] = df[to_var].astype(str)
+
     #Check for missing values
     variables_to_check = [from_var, to_var] + \
         ([id_var] if id_var is not None else [])
@@ -45,6 +49,7 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
         len(df)
 
     #Compute observed edges
+
     edge_df = df.groupby([from_var, to_var]).size().reset_index(name='edge_weight')
     edge_df = edge_df[edge_df['edge_weight'] >= edge_cutoff]
 
@@ -134,8 +139,8 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     #Mean centrality of nodes with incoming transfers
     receiving_nodes = [node for node, count in G.in_degree(all_nodes) if count > 0]
     H = G_undirected.subgraph(receiving_nodes)
-    centrality_mean_recieving = np.mean(list(nx.katz_centrality_numpy(H).values()))
-    
+    #centrality_mean_recieving = np.mean(list(nx.katz_centrality_numpy(H).values()))
+    centrality_mean_recieving =1
     ## Modularity
     #Greedy modularity
     modularity_greedy = nx.algorithms.community.modularity(G_undirected, 
@@ -167,3 +172,101 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
         'graph_networkx':G,
         'graph_network_igraph':g
     }
+
+import pandas as pd
+import networkx as nx
+
+def dataframe_from_networkx(graph):
+    """
+    Create a DataFrame from a NetworkX graph.
+
+    Each edge in the graph is represented by a row in the DataFrame.
+    Edges with weight greater than 1 are replicated accordingly.
+
+    Args:
+    graph (nx.Graph): A NetworkX graph object.
+
+    Returns:
+    pd.DataFrame: DataFrame representing edges of the graph.
+
+    Example:
+    >>> G = nx.Graph()
+    >>> G.add_edge('A', 'B', weight=2)
+    >>> G.add_edge('B', 'C', weight=1)
+    >>> dataframe_from_networkx(G)
+    """
+
+    # Extract edges and their weights
+    edges_with_weights = [(u, v, d.get('weight', 1)) for u, v, d in graph.edges(data=True)]
+
+    # Create a DataFrame and replicate rows based on weight
+    df = pd.DataFrame(edges_with_weights, columns=['source', 'target', 'weight'])
+    df = df.loc[df.index.repeat(df['weight'])].reset_index(drop=True)
+    df.drop('weight', axis=1, inplace=True)
+
+    return df
+
+
+def print_network_nodes_edges(graph_networkx):
+    """
+    Prints the nodes and the edges along with their weights of a NetworkX graph.
+
+    Args:
+        graph_networkx (nx.Graph): A NetworkX graph object.
+
+    Example:
+        G = nx.Graph()
+        G.add_edge(1, 2, weight=0.5)
+        G.add_edge(2, 3, weight=1.5)
+        print_network_nodes_edges(G)
+
+    [GPT Version] 20230419
+    """
+    # Print nodes
+    print("Nodes:", ", ".join(map(str, graph_networkx.nodes())))
+
+    # Print edges with weights
+    print("Edges:")
+    for u, v, data in graph_networkx.edges(data=True):
+        weight = data.get('weight', 1.0)  # Default weight is 1.0 if not specified
+        print(f"({u}, {v}, weight={weight})")
+# Example usage
+# G = nx.Graph()
+# G.add_edge(1, 2, weight=0.5)
+# G.add_edge(2, 3, weight=1.5)
+# print_network_nodes_edges(G)
+        
+
+def print_graph_info(graph, graph_name = ''):
+        nodes = graph.nodes()
+        edges = graph.edges(data=True)
+        density = nx.density(graph)
+        print(f"--- {graph_name} ---\n"
+              f"Nodes ({len(nodes)}): {nodes}\n"
+              f"Edges ({len(edges)}): {edges}\n"
+              f"Density: {density:.4f}")
+
+def compare_networkx_graphs(g1, g2):
+    """
+    Compare two NetworkX graphs by printing their nodes, edges, their counts, and density.
+
+    Args:
+        g1 (nx.Graph): The first graph to compare.
+        g2 (nx.Graph): The second graph to compare.
+
+    Returns:
+        None
+
+    Example:
+        compare_networkx_graphs(graph1, graph2)
+
+    [GPT Version] [20231219]
+    """
+
+    
+    print_graph_info(g1, "Graph 1")
+    print("------")
+    print_graph_info(g2, "Graph 2")
+# Example usage:
+# compare_networkx_graphs(graph1, graph2)
+

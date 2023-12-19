@@ -44,7 +44,6 @@ class test_table_one_function(unittest.TestCase):
             df, var_vec
         )
       
-
         # Function call
         # result_df = tableOne(
         #     df, var_vec, 'category_var', all_dict=None, show_na=True, 
