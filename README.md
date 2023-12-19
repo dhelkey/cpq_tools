@@ -1,113 +1,43 @@
 # Package cpq_tools
 
-## Download updated code from Github
+A collection of Python utilities, intended for California Perinatal/Maternal Quality Care Collaborative use.
 
-### Windows
-
-```cmd
-curl -L -o cpq_tools.zip https://github.com/dhelkey/cpq_tools/archive/refs/heads/main.zip
-```
-
-### Linux
-
-```bash
-wget -O cpq_tools-main.zip https://github.com/dhelkey/cpq_tools/archive/refs/heads/main.zip
-```
-
-## Import package using Python
-```
-import os
-import sys
-import zipfile
-
-def import_package_from_zip(zip_file_name, repo_name, remove_zip=False):
-    print(f"Current Working Directory: {os.getcwd()}")
-
-    # Construct the full path to the zip file
-    zip_file_path = os.path.join(os.getcwd(), zip_file_name)
-    print(f"Zip file path: {zip_file_path}")
-
-    # Create a temporary directory for extraction
-    temp_dir = os.path.join(os.getcwd(), "_TEMP")
-    print(f"Temporary directory: {temp_dir}")
-
-    # Extract the zip file
-    with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
-        zip_ref.extractall(temp_dir)
-        # Dynamically find the first directory in the zip file
-        top_level_dir = next((name for name in zip_ref.namelist() if name.endswith('/')), '')
-        print(f"Top-level directory in the zip: {top_level_dir}")
-
-    # Construct the package directory path
-    package_dir = os.path.join(temp_dir, top_level_dir, repo_name)
-    print(f"Package directory: {package_dir}")
-
-    # Append the package directory to the system path if it exists
-    if os.path.exists(package_dir):
-        sys.path.append(package_dir)
-        print(f"Package directory added to system path: {package_dir}")
-    else:
-        print(f"Package directory does not exist: {package_dir}")
-        return
-
-    # Remove the zip file if specified
-    if remove_zip:
-        os.remove(zip_file_path)
-
-repo_name = 'cpq_tools'
-zip_file_name = f'{repo_name}.zip'
-
-import_package_from_zip(zip_file_name, repo_name, remove_zip=False)
-
-from cpq_tools import tableOne
-```
+Code is currently in a draft, unreleased state.
 
 
 
+All code is released under the [MIT License](LICENSE)
 
 
+## Function API
 
-# Package Usage
-
-
-### `process_excel_variables` 
-
-The `process_excel_variable_file` function processes Excel files (.xls or .xlsx) containing variable data. It outputs a pandas DataFrame detailing variable names, descriptions, and types, and a dictionary mapping variable names to their possible values.
+table_one()
 
 
-```python
-variable_description_df, variable_key_dict = process_excel_variable_file(
-    'data/state_data_documentation.xlsx',
-    var_col="Variable", 
-    desc_col="Description/Label", 
-    type_col="Type",
-    values_col='Values'
-)
+network_metrics
 
 
+# Using CPQ Tools Without Installation
 
+This document explains how to use the `cpq_tools` package without installing it, by dynamically adding its path to the Python environment.
 
-EXAMPLES
+## Method
 
+To use the package in your Python scripts, add the following code at the beginning of your script:
 
-import requests
-from io import BytesIO
-from zipfile import ZipFile
+   ```python
+   import sys
+   import os
 
-def download_github_repo_with_requests(repo_url, branch='main', target_dir='downloaded_repository'):
-    url = f"{repo_url}/archive/refs/heads/{branch}.zip"
-    response = requests.get(url)
-    zipfile = ZipFile(BytesIO(response.content))
-    zipfile.extractall(path=target_dir)
+   # Set the path to the package
+   package_dir = '/path/to/cpq_tools/'
+   if package_dir not in sys.path:
+       sys.path.append(package_dir)
 
-download_github_repo_with_requests('https://github.com/dhelkey/cpq_tools')
+   # Import the package
+   import cpq_tools as cpq
 
+   # Alternatively, import specific functions directly
+   # from cpq_tools import tableOne
+   # from cpq_tools.data_functions import process_excel_variable_file
 
-
-import wget
-
-def download_github_repo_with_wget(repo_url, branch='main', target_file='downloaded_repository.zip'):
-    url = f"{repo_url}/archive/refs/heads/{branch}.zip"
-    wget.download(url, target_file)
-
-download_github_repo_with_wget('https://github.com/dhelkey/cpq_tools')

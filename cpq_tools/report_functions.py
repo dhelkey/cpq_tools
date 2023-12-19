@@ -4,7 +4,7 @@
 #Use common API, var
 import pandas as pd
 
-def tableOne(df, variable_vec, category_var=None, all_dict=None,
+def table_one(df, variable_vec, category_var=None, all_dict=None,
                 show_na=False,
                 only_indicator_1 = False,
                 verbose=False,

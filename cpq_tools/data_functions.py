@@ -1,11 +1,18 @@
-#Data helper functions
+#Functions for parsing data files - Intended for CPQCC/CMQCC use
 
 import pandas as pd
 import os
 
-def process_excel_variable_file(file_path, var_col='variable', desc_col='description', type_col='type', values_col=None, sheet_number=0, verbose=False):
+def process_excel_variable_file(file_path,
+                                 var_col='variable',
+                                 desc_col='description', 
+                                 type_col='type', 
+                                 values_col=None, 
+                                 sheet_number=0, 
+                                 verbose=False):
     """
-    Processes an Excel file (.xls or .xlsx) to generate a DataFrame of variable descriptions and a dictionary of variable values.
+    Processes an EXCEL file (.xls or .xlsx) of variable info
+    Generates a DataFrame of variable descriptions and a dictionary of variable values.
     NOTE - Uses excel, CSV is overwhelmed by including the key within a column.
     
     Parameters:
