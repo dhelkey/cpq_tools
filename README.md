@@ -23,14 +23,22 @@ This document explains how to use the `cpq_tools` package without installing it,
 
 ## Method
 
-To use the package in your Python scripts, add the following code at the beginning of your script:
 
-   ```python
+Clone github repository
+```
+%%cmd #Run from Jupyter Notebook - Windows
+git clone https://github.com/dhelkey/cpq_tools.git
+```
+
+Add the following code at the beginning of your script:
+
+   ```
+   python
    import sys
    import os
 
    # Set the path to the package
-   package_dir = '/path/to/cpq_tools/'
+   package_dir = 'cpq_tools/'
    if package_dir not in sys.path:
        sys.path.append(package_dir)
 
@@ -40,4 +48,4 @@ To use the package in your Python scripts, add the following code at the beginni
    # Alternatively, import specific functions directly
    # from cpq_tools import tableOne
    # from cpq_tools.data_functions import process_excel_variable_file
-
+```
