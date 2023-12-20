@@ -47,6 +47,9 @@ class TestNetworkFunctions(unittest.TestCase):
         #Compute network metrics manually
         num_nodes = graph.number_of_nodes()
         num_edges = graph.number_of_edges()
+
+        centrality_median = np.median(list(nx.katz_centrality_numpy(graph_undirected).values()))
+
         density_unweighted = nx.density(graph)
         efficiency_global = nx.global_efficiency(graph_undirected)
 
@@ -60,6 +63,9 @@ class TestNetworkFunctions(unittest.TestCase):
                                 delta = TOLERANCE)
         self.assertAlmostEqual(efficiency_global,
                                 df_metrics['efficiency_global'],
+                                delta = TOLERANCE)
+        self.assertAlmostEqual(centrality_median,
+                                df_metrics['centrality_median'],
                                 delta = TOLERANCE)
         self.assertAlmostEqual(modularity_greedy,
                                 df_metrics['modularity_greedy'],
