@@ -1,6 +1,7 @@
 import unittest
 import networkx as nx
 import pandas as pd
+import numpy as np
 
 from cpq_tools.network_funs import compute_network_metrics, \
         print_network_nodes_edges, compare_networkx_graphs, \
