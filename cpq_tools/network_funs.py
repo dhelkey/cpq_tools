@@ -123,9 +123,27 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     ## Efficiency
     #Global eficiency
     efficiency_global = nx.global_efficiency(G_undirected)
-    #Median pairwise local efficiency of node pairs 
-    efficiency_median_pairwise_local = np.median([nx.efficiency(G_undirected, u, v) for \
-                                         u, v in nx.utils.pairwise(G_undirected.nodes)])
+    # #Median pairwise local efficiency of node pairs 
+    # efficiency_median_pairwise_local = np.median([nx.efficiency(G_undirected, u, v) for \
+    #                                      u, v in nx.utils.pairwise(G_undirected.nodes)])
+    
+    
+    #Median local node efficiency
+    local_efficiencies = []
+    for node in G_undirected.nodes():
+        # Subgraph induced by the neighbors of the node
+        neighbors = list(nx.neighbors(G_undirected, node))
+        if len(neighbors) < 2:
+            # Local efficiency is zero if a node has less than two neighbors
+            local_efficiencies.append(0)
+            continue
+
+        subgraph = G_undirected.subgraph(neighbors)
+        local_efficiency = nx.global_efficiency(subgraph)
+        local_efficiencies.append(local_efficiency)
+
+    # Calculate median of local efficiencies
+    efficiency_median_local = np.median(local_efficiencies)
     
     ## Density 
     #Unweighted density
@@ -165,7 +183,7 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
         'density_unweighted': density_unweighted,
         'density_weighted': density_weighted, #Density
         'efficiency_global': efficiency_global,
-        'efficiency_median_pairwise_local':efficiency_median_pairwise_local, #Efficiency
+        'efficiency_median_local':efficiency_median_local, #Efficiency
         'modularity_randomwalk': modularity_randomwalk, #Modularity
         'modularity_greedy':modularity_greedy,
         'num_connected_components':num_connected_components,

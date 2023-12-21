@@ -59,6 +59,24 @@ class TestNetworkFunctions(unittest.TestCase):
         density_unweighted = nx.density(graph)
         efficiency_global = nx.global_efficiency(graph_undirected)
 
+         #Median local node efficiency
+        local_efficiencies = []
+        for node in graph_undirected.nodes():
+            # Subgraph induced by the neighbors of the node
+            neighbors = list(nx.neighbors(graph_undirected, node))
+            if len(neighbors) < 2:
+                # Local efficiency is zero if a node has less than two neighbors
+                local_efficiencies.append(0)
+                continue
+
+            subgraph = graph_undirected.subgraph(neighbors)
+            local_efficiency = nx.global_efficiency(subgraph)
+            local_efficiencies.append(local_efficiency)
+
+        # Calculate median of local efficiencies
+        efficiency_median_local = np.median(local_efficiencies)
+    
+
         katz_centralities = nx.katz_centrality_numpy(graph_undirected)
         in_degrees = dict(graph.in_degree())
         centrality_median = np.median(list(katz_centralities.values()))
@@ -75,6 +93,9 @@ class TestNetworkFunctions(unittest.TestCase):
                                 delta = TOLERANCE)
         self.assertAlmostEqual(efficiency_global,
                                 df_metrics['efficiency_global'],
+                                delta = TOLERANCE)
+        self.assertAlmostEqual(efficiency_median_local,
+                                df_metrics['efficiency_median_local'],
                                 delta = TOLERANCE)
         self.assertAlmostEqual(centrality_median,
                                 df_metrics['centrality_median'],

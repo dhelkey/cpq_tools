@@ -26,6 +26,11 @@ Clone github repository
 git clone https://github.com/dhelkey/cpq_tools.git
 ```
 
+```
+cd cpq_tools
+git pull
+```
+
 Add the following code at the beginning of your script:
 
    ```
