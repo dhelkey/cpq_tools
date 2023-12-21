@@ -23,7 +23,6 @@ This document explains how to use the `cpq_tools` package without installing it,
 
 ## Method
 
-
 Clone github repository
 ```
 %%cmd #Run from Jupyter Notebook - Windows

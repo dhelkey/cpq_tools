@@ -44,6 +44,7 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
 
     #Identify number of nodes and individuals
     all_nodes = set(df[from_var]).union(set(df[to_var]))
+        
     n_nodes = len(list(all_nodes))
     n_individuals = df[id_var].nunique() if id_var is not None else \
         len(df)
@@ -75,30 +76,67 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     #Note - not required for computing the current included network metrics
     g_undirected = g.as_undirected() 
 
-    #Connected components statistics
-    num_connected_components = nx.number_connected_components(G_undirected)
-    connected_components = nx.connected_components(G_undirected)
+    # #Connected components statistics
+    # num_connected_components = nx.number_connected_components(G_undirected)
+    # connected_components = nx.connected_components(G_undirected)
+    # print(num_connected_components)
+    # print(connected_components)
+    # #Nodes within connected components
+    # largest_connected_component_nodes = max(connected_components, key=len)  if \
+    #                                             num_connected_components > 0 else set()
+    # max_node_percentage_by_component = len(largest_connected_component_nodes) / len(G_undirected) * 100  
 
-    #Nodes within connected components
-    largest_connected_component_nodes = max(connected_components, key=len)  if \
-                                                num_connected_components > 0 else set()
+    # #Weighs within connected components 
+    # edge_weights = {(min(u, v), max(u, v)): data['weight'] for \
+    #                          u, v, data in G_undirected.edges(data=True)}
+    # total_graph_weight = sum(edge_weights.values())
+
+    # def component_weight(component):
+    #     #Function to calculate sum of component edge weights
+    #     return sum(edge_weights.get((min(u, v), max(u, v)), 0) for \
+    #                  u, v in nx.edges(G_undirected.subgraph(component)))
+
+    # if num_connected_components > 1:
+    #     print('max', connected_components)
+    #     print([val for val in connected_components])
+    #     largest_weighted_component = max(connected_components, key=component_weight)
+    #     largest_component_weight = component_weight(largest_weighted_component)
+    # else:
+    #     largest_component_weight = 1
+
+    # Number of Connected Components
+    num_connected_components = nx.number_connected_components(G_undirected)
+    connected_components_list = list(nx.connected_components(G_undirected))
+
+    # Nodes within Connected Components
+    largest_connected_component_nodes = max(connected_components_list, key=len) if num_connected_components > 0 else set()
     max_node_percentage_by_component = len(largest_connected_component_nodes) / len(G_undirected) * 100  
 
-    #Weighs within connected components 
-    edge_weights = {(min(u, v), max(u, v)): data['weight'] for \
-                             u, v, data in G_undirected.edges(data=True)}
+    # Edge Weights within Connected Components 
+    edge_weights = {(min(u, v), max(u, v)): data['weight'] for u, v, data in G_undirected.edges(data=True)}
     total_graph_weight = sum(edge_weights.values())
 
     def component_weight(component):
-        #Function to calculate sum of component edge weights
-        return sum(edge_weights.get((min(u, v), max(u, v)), 0) for \
-                     u, v in nx.edges(G_undirected.subgraph(component)))
+        """Calculate sum of component edge weights.
 
+        Args:
+            component (set): A set of nodes representing a component.
+
+        Returns:
+            float: The total weight of the component.
+
+        [GPT Version] [20230418]
+        """
+        return sum(edge_weights.get((min(u, v), max(u, v)), 0) for u, v in nx.edges(G_undirected.subgraph(component)))
+
+    # Largest Weighted Component
     if num_connected_components > 1:
-        largest_weighted_component = max(connected_components, key=component_weight)
+        largest_weighted_component = max(connected_components_list, key=component_weight)
         largest_component_weight = component_weight(largest_weighted_component)
     else:
-        largest_component_weight = 1
+        # Calculate the weight for the single component
+        largest_component_weight = component_weight(connected_components_list[0]) if connected_components_list else 0
+
 
     # Calculate the percentage
     max_weight_percentage_by_component = largest_component_weight / total_graph_weight * 100

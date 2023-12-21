@@ -23,12 +23,19 @@ class TestNetworkFunctions(unittest.TestCase):
         G_directed = nx.DiGraph([(1, 2), (2, 3), (3, 4), (4, 2)])
         G_directed_df = dataframe_from_networkx(G_directed)
 
+        G_directed = nx.DiGraph([(1, 2), (2, 3), (3, 4), (4, 2)])
+        G_directed_df = dataframe_from_networkx(G_directed)
+
+        G_disjoint = nx.DiGraph([(1, 2), (1, 3), (3, 2), (4, 1), (5, 6)])
+        G_disjoint_df = dataframe_from_networkx(G_disjoint)
+
         G_ba = nx.barabasi_albert_graph(50, 3).to_directed()
         G_ba_df = dataframe_from_networkx(G_ba)
 
         networks = {
             'karate': (KARATE, KARATE_df),
             'directed': (G_directed, G_directed_df),
+            'disjoint':(G_disjoint, G_disjoint_df),
             'barabasi_albert': (G_ba, G_ba_df),
             'florentine': (FLORENTINE, FLORENTINE_df),
             'petersen': (PETERSEN, PETERSEN_df) 
