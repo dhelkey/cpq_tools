@@ -123,10 +123,6 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     ## Efficiency
     #Global eficiency
     efficiency_global = nx.global_efficiency(G_undirected)
-    # #Median pairwise local efficiency of node pairs 
-    # efficiency_median_pairwise_local = np.median([nx.efficiency(G_undirected, u, v) for \
-    #                                      u, v in nx.utils.pairwise(G_undirected.nodes)])
-    
     
     #Median local node efficiency
     local_efficiencies = []
@@ -141,8 +137,6 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
         subgraph = G_undirected.subgraph(neighbors)
         local_efficiency = nx.global_efficiency(subgraph)
         local_efficiencies.append(local_efficiency)
-
-    # Calculate median of local efficiencies
     efficiency_median_local = np.median(local_efficiencies)
     
     ## Density 
@@ -154,15 +148,11 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
                                                      edge_weights else 0
 
     ## Centrality
-    #Median node centrality 
-    # centrality_median = np.median(list(nx.katz_centrality_numpy(G_undirected).values()))
-    # #Mean centrality of nodes with incoming transfers
-    # receiving_nodes = [node for node, count in G.in_degree(all_nodes) if count > 0]
-    # H = G_undirected.subgraph(receiving_nodes)
-    # centrality_mean_recieving = np.mean(list(nx.katz_centrality_numpy(H).values()))
     katz_centralities = nx.katz_centrality_numpy(G_undirected)
     in_degrees = dict(G.in_degree())
+    #Median node centrality 
     centrality_median = np.median(list(katz_centralities.values()))
+    #Mean centrality of nodes with incoming transfers
     centrality_mean_receiving = np.mean([katz_centralities[node] for \
             node, count in in_degrees.items() if count > 0])
   
@@ -226,7 +216,7 @@ def dataframe_from_networkx(graph):
     # Create a DataFrame and replicate rows based on weight
     df = pd.DataFrame(edges_with_weights, columns=['source', 'target', 'weight'])
     df = df.loc[df.index.repeat(df['weight'])].reset_index(drop=True)
-    df.drop('weight', axis=1, inplace=True)
+    #df.drop('weight', axis=1, inplace=True)
 
     return df
 
