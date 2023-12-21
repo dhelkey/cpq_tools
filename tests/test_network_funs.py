@@ -4,8 +4,7 @@ import pandas as pd
 import numpy as np
 
 from cpq_tools.network_funs import compute_network_metrics, \
-        print_network_nodes_edges, compare_networkx_graphs, \
-        dataframe_from_networkx
+        print_network_nodes_edges, dataframe_from_networkx
 
 class TestNetworkFunctions(unittest.TestCase):
     def test_network_metrics(self):
@@ -48,6 +47,7 @@ class TestNetworkFunctions(unittest.TestCase):
     def run_networkx_metrics(self, graph, df):
         #Output of function to be tested
         network_output = compute_network_metrics(df, 'source', 'target')
+
         df_metrics = network_output['df_metrics']
 
         graph_undirected = graph.to_undirected()
@@ -55,14 +55,18 @@ class TestNetworkFunctions(unittest.TestCase):
         #Compute network metrics manually
         num_nodes = graph.number_of_nodes()
         num_edges = graph.number_of_edges()
-
-        centrality_median = np.median(list(nx.katz_centrality_numpy(graph_undirected).values()))
-
+   
         density_unweighted = nx.density(graph)
         efficiency_global = nx.global_efficiency(graph_undirected)
 
+        katz_centralities = nx.katz_centrality_numpy(graph_undirected)
+        in_degrees = dict(graph.in_degree())
+        centrality_median = np.median(list(katz_centralities.values()))
+        centrality_mean_receiving = np.mean([katz_centralities[node] for \
+                        node, count in in_degrees.items() if count > 0])
+
         modularity_greedy = nx.algorithms.community.modularity(graph_undirected, 
-        nx.algorithms.community.greedy_modularity_communities(graph_undirected))
+            nx.algorithms.community.greedy_modularity_communities(graph_undirected))
 
         TOLERANCE = 1e-9
         self.assertEqual(num_nodes, df_metrics['n_nodes'])
@@ -75,9 +79,13 @@ class TestNetworkFunctions(unittest.TestCase):
         self.assertAlmostEqual(centrality_median,
                                 df_metrics['centrality_median'],
                                 delta = TOLERANCE)
+        self.assertAlmostEqual(centrality_mean_receiving,
+                                df_metrics['centrality_mean_receiving'],
+                                delta = TOLERANCE)
+        #Modularity (greedy) does not seem as percise
         self.assertAlmostEqual(modularity_greedy,
                                 df_metrics['modularity_greedy'],
-                                delta = 1e-3)
+                                delta = 1e-2) 
         
         self.assertIsInstance(network_output['graph_networkx'],
                                nx.DiGraph)

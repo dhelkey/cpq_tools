@@ -4,10 +4,7 @@ A collection of Python utilities, intended for California Perinatal/Maternal Qua
 
 Code is currently in a draft, unreleased state.
 
-
-
-All code is released under the [MIT License](LICENSE)
-
+All code released under the [MIT License](LICENSE)
 
 ## Function API
 

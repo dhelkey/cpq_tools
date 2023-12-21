@@ -31,9 +31,9 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     """
     df = df_in.copy()
 
-    #Ensure nodes are treated as strings
-    df[from_var] = df[from_var].astype(str)
-    df[to_var] = df[to_var].astype(str)
+    # #Treat nodes as strings 
+    # df[from_var] = df[from_var].astype(str)
+    # df[to_var] = df[to_var].astype(str)
 
     #Check for missing values
     variables_to_check = [from_var, to_var] + \
@@ -41,6 +41,8 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     for var in variables_to_check:
         if df[var].isnull().any():
             raise ValueError(f"Missing values in {var}.")
+        #Treat all identifying variables as strings
+        df[var] = df[var].astype(str)  
 
     #Identify number of nodes and individuals
     all_nodes = set(df[from_var]).union(set(df[to_var]))
@@ -50,7 +52,6 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
         len(df)
 
     #Compute observed edges
-
     edge_df = df.groupby([from_var, to_var]).size().reset_index(name='edge_weight')
     edge_df = edge_df[edge_df['edge_weight'] >= edge_cutoff]
 
@@ -76,34 +77,6 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     #Note - not required for computing the current included network metrics
     g_undirected = g.as_undirected() 
 
-    # #Connected components statistics
-    # num_connected_components = nx.number_connected_components(G_undirected)
-    # connected_components = nx.connected_components(G_undirected)
-    # print(num_connected_components)
-    # print(connected_components)
-    # #Nodes within connected components
-    # largest_connected_component_nodes = max(connected_components, key=len)  if \
-    #                                             num_connected_components > 0 else set()
-    # max_node_percentage_by_component = len(largest_connected_component_nodes) / len(G_undirected) * 100  
-
-    # #Weighs within connected components 
-    # edge_weights = {(min(u, v), max(u, v)): data['weight'] for \
-    #                          u, v, data in G_undirected.edges(data=True)}
-    # total_graph_weight = sum(edge_weights.values())
-
-    # def component_weight(component):
-    #     #Function to calculate sum of component edge weights
-    #     return sum(edge_weights.get((min(u, v), max(u, v)), 0) for \
-    #                  u, v in nx.edges(G_undirected.subgraph(component)))
-
-    # if num_connected_components > 1:
-    #     print('max', connected_components)
-    #     print([val for val in connected_components])
-    #     largest_weighted_component = max(connected_components, key=component_weight)
-    #     largest_component_weight = component_weight(largest_weighted_component)
-    # else:
-    #     largest_component_weight = 1
-
     # Number of Connected Components
     num_connected_components = nx.number_connected_components(G_undirected)
     connected_components_list = list(nx.connected_components(G_undirected))
@@ -117,15 +90,7 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     total_graph_weight = sum(edge_weights.values())
 
     def component_weight(component):
-        """Calculate sum of component edge weights.
-
-        Args:
-            component (set): A set of nodes representing a component.
-
-        Returns:
-            float: The total weight of the component.
-
-        [GPT Version] [20230418]
+        """Calculate sum of component edge weights
         """
         return sum(edge_weights.get((min(u, v), max(u, v)), 0) for u, v in nx.edges(G_undirected.subgraph(component)))
 
@@ -136,7 +101,6 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     else:
         # Calculate the weight for the single component
         largest_component_weight = component_weight(connected_components_list[0]) if connected_components_list else 0
-
 
     # Calculate the percentage
     max_weight_percentage_by_component = largest_component_weight / total_graph_weight * 100
@@ -172,13 +136,18 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
                                                      edge_weights else 0
 
     ## Centrality
-    #Median value of node centrality 
-    centrality_median = np.median(list(nx.katz_centrality_numpy(G_undirected).values()))
-    #Mean centrality of nodes with incoming transfers
-    receiving_nodes = [node for node, count in G.in_degree(all_nodes) if count > 0]
-    H = G_undirected.subgraph(receiving_nodes)
-    #centrality_mean_recieving = np.mean(list(nx.katz_centrality_numpy(H).values()))
-    centrality_mean_recieving =1
+    #Median node centrality 
+    # centrality_median = np.median(list(nx.katz_centrality_numpy(G_undirected).values()))
+    # #Mean centrality of nodes with incoming transfers
+    # receiving_nodes = [node for node, count in G.in_degree(all_nodes) if count > 0]
+    # H = G_undirected.subgraph(receiving_nodes)
+    # centrality_mean_recieving = np.mean(list(nx.katz_centrality_numpy(H).values()))
+    katz_centralities = nx.katz_centrality_numpy(G_undirected)
+    in_degrees = dict(G.in_degree())
+    centrality_median = np.median(list(katz_centralities.values()))
+    centrality_mean_receiving = np.mean([katz_centralities[node] for \
+            node, count in in_degrees.items() if count > 0])
+  
     ## Modularity
     #Greedy modularity
     modularity_greedy = nx.algorithms.community.modularity(G_undirected, 
@@ -191,7 +160,7 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     network_metrics = {
         'n_individuals': n_individuals,
         'n_nodes': len(all_nodes),
-        'centrality_mean_recieving': centrality_mean_recieving,
+        'centrality_mean_receiving': centrality_mean_receiving,
         'centrality_median': centrality_median, #Centrality      
         'density_unweighted': density_unweighted,
         'density_weighted': density_weighted, #Density
@@ -211,15 +180,14 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
         'graph_network_igraph':g
     }
 
-import pandas as pd
-import networkx as nx
-
 def dataframe_from_networkx(graph):
     """
     Create a DataFrame from a NetworkX graph.
 
     Each edge in the graph is represented by a row in the DataFrame.
     Edges with weight greater than 1 are replicated accordingly.
+
+    Intended to construct sample datasets to test compute_network_metrics 
 
     Args:
     graph (nx.Graph): A NetworkX graph object.
@@ -244,10 +212,20 @@ def dataframe_from_networkx(graph):
 
     return df
 
+def print_graph_info(graph, graph_name = ''):
+        """Print info of a networkX graph object
+        """
+        nodes = graph.nodes()
+        edges = graph.edges(data=True)
+        density = nx.density(graph)
+        print(f"--- {graph_name} ---\n"
+              f"Nodes ({len(nodes)}): {nodes}\n"
+              f"Edges ({len(edges)}): {edges}\n"
+              f"Density: {density:.4f}")
 
 def print_network_nodes_edges(graph_networkx):
     """
-    Prints the nodes and the edges along with their weights of a NetworkX graph.
+    Prints the nodes, edges, and weights of a NetworkX graph.
 
     Args:
         graph_networkx (nx.Graph): A NetworkX graph object.
@@ -258,7 +236,7 @@ def print_network_nodes_edges(graph_networkx):
         G.add_edge(2, 3, weight=1.5)
         print_network_nodes_edges(G)
 
-    [GPT Version] 20230419
+    GPT-20230419
     """
     # Print nodes
     print("Nodes:", ", ".join(map(str, graph_networkx.nodes())))
@@ -273,38 +251,3 @@ def print_network_nodes_edges(graph_networkx):
 # G.add_edge(1, 2, weight=0.5)
 # G.add_edge(2, 3, weight=1.5)
 # print_network_nodes_edges(G)
-        
-
-def print_graph_info(graph, graph_name = ''):
-        nodes = graph.nodes()
-        edges = graph.edges(data=True)
-        density = nx.density(graph)
-        print(f"--- {graph_name} ---\n"
-              f"Nodes ({len(nodes)}): {nodes}\n"
-              f"Edges ({len(edges)}): {edges}\n"
-              f"Density: {density:.4f}")
-
-def compare_networkx_graphs(g1, g2):
-    """
-    Compare two NetworkX graphs by printing their nodes, edges, their counts, and density.
-
-    Args:
-        g1 (nx.Graph): The first graph to compare.
-        g2 (nx.Graph): The second graph to compare.
-
-    Returns:
-        None
-
-    Example:
-        compare_networkx_graphs(graph1, graph2)
-
-    [GPT Version] [20231219]
-    """
-
-    
-    print_graph_info(g1, "Graph 1")
-    print("------")
-    print_graph_info(g2, "Graph 2")
-# Example usage:
-# compare_networkx_graphs(graph1, graph2)
-
