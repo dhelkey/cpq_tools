@@ -2,7 +2,7 @@
 
 import unittest
 import pandas as pd
-from cpq_tools.report_functions import table_one
+from cpq_tools.table_one import table_one
 
 class test_table_one_function(unittest.TestCase):
 

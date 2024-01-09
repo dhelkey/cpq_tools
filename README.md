@@ -4,14 +4,30 @@ A collection of Python utilities, intended for California Perinatal/Maternal Qua
 
 Code is currently in a draft, unreleased state.
 
-All code released under the [MIT License](LICENSE)
+All code released under the [MIT License](LICENSE). Code is provied for user conviencnece, with no guarentee is made regarding acuracy of results. ALl analaysis should be performed under the supervision of qualified personell.
+
+Tools constructed with the assistance of generative AI tools, primarily ChatGPT-4.
+
 
 ## Function API
 
-table_one()
+[Data Preprocessing]
 
+table_one() 
+
+Generate table one values for research purposes
+
+
+[Network Code]
 
 network_metrics
+
+## Design Philosophy
+Functions are intended for analysis of processed, generally rectangular datasets, where each row represents a single observation. These datasets are typically stored with categorical variables recorded as integers, to simplify storage.
+
+
+
+These functions are designe to prepare this data for presentation, incluing
 
 
 # Using CPQ Tools Without Installation
