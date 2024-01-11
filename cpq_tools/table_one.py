@@ -10,7 +10,7 @@ def table_one(df, variable_vec, category_var=None, all_dict=None,
                 verbose=False,
                 cat_vars_ordered = ['ucodr130', 'dcat_i'],
                 var_type_identifier = 'type'): #Specify a variable type dataframe, including the keys. Use existing function to creat.
-    """Reweite the function enerated primiarily by GPT"""
+    """Function generated primiarily by GPT"""
 
     return(df.head(2)) #This should break the tests for right now
 

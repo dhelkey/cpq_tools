@@ -1,6 +1,6 @@
 import unittest
 from pathlib import Path
-from cpq_tools.data_functions import process_excel_variable_file
+from cpq_tools import process_excel_variable_file
 
 
 class TestDataFunctions(unittest.TestCase):
