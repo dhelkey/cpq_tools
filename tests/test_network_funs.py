@@ -24,6 +24,8 @@ class TestNetworkFunctions(unittest.TestCase):
         G_directed = nx.DiGraph([(1, 2), (2, 3), (3, 4), (4, 2)])
 
         G_disjoint = nx.DiGraph([(1, 2), (1, 3), (3, 2), (4, 1), (5, 6)])
+
+        G_loops = nx.DiGraph([(1, 2), (3, 3), (3, 2), (4, 1), (5, 6), (6,6)])
  
         G_ba = nx.barabasi_albert_graph(50, 3).to_directed()
       
@@ -34,7 +36,8 @@ class TestNetworkFunctions(unittest.TestCase):
             'barabasi_albert': G_ba,
             'florentine': FLORENTINE,
             'petersen': PETERSEN ,
-            'tiny':G_tiny
+            'tiny':G_tiny,
+            'loops':G_loops
         }
 
         # Function to add missing weights (assume this exists)
@@ -67,6 +70,8 @@ class TestNetworkFunctions(unittest.TestCase):
         #Compute network metrics manually
         num_nodes = graph.number_of_nodes()
         num_edges = graph.number_of_edges()
+        n_transfers = df.shape[0]
+        n_self_loops = df[df['source'] == df['target']].shape[0]
     
         #Density
         density_unweighted = nx.density(graph)
@@ -107,8 +112,12 @@ class TestNetworkFunctions(unittest.TestCase):
         network_output = compute_network_metrics(df, 'source', 'target')
         df_metrics = network_output['df_metrics']
 
+        n_transfers = df.shape[0]
+
         TOLERANCE = 1e-9
         self.assertEqual(num_nodes, df_metrics['n_nodes'])
+        self.assertEqual(n_transfers, df_metrics['n_transfers'])
+        self.assertEqual(n_self_loops, df_metrics['n_self_loops'])
         self.assertAlmostEqual(density_unweighted,
                                 df_metrics['density_unweighted'] ,
                                 delta = TOLERANCE)
@@ -130,7 +139,7 @@ class TestNetworkFunctions(unittest.TestCase):
         #Modularity (greedy) does not seem as precise
         self.assertAlmostEqual(modularity_greedy,
                                 df_metrics['modularity_greedy'],
-                                delta = 1e-2) 
+                                delta = 1e-4) 
         
         self.assertIsInstance(network_output['graph_networkx'],
                                nx.DiGraph)

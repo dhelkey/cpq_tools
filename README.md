@@ -81,3 +81,11 @@ package_path = 'path_to_zip_file.zip'
 #Please Python code.
 ```
 #Please, finish for this LASST bit please, along with descriptiion. E.g. replace this comment with tesxt)
+
+
+Runing on server complicate
+
+#Linux server enings
+sed -i 's/\r//' ./unzip_cpq.sh
+
+./unzip_cpq.sh

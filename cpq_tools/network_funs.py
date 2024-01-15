@@ -4,22 +4,31 @@ import pandas as pd
 import numpy as np
 
 def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid', 
-                        id_var=None, edge_cutoff=1, random_walk_steps = 5):
+                        id_var=None, 
+                        edge_cutoff=1, 
+                        random_walk_steps = 5):
     """
-    Construct network metrics from an individual-record level dataframe
+    Construct network metrics and networks from an dataframe of infant-transfers
+    Intended to construct networks with nodes representing hospitals and
+	 directed edges representing the number of acute transfers between hospitals.
     Parameters:
-        df_in (DataFrame): Acute transfer DataFrame (One row per transfer).
+        df_in (DataFrame): Acute transfer DataFrame (One row per acute transfer).
         from_var (str): Source node.
         to_var (str): Destination node.
         id_var (str): Individual identifier.
-        edge_cutoff (int): Minimum number of transfers to include an edge.
-    Returns:
+        edge_cutoff (int): Minimum number of transfers to include edge.
+        random_walk_steps (int): Randdom walk steps for random walk modularity    Returns:
         dict: A dictionary containing the following key-value pairs:
             'df_metrics' (DataFrame): A DataFrame containing network metrics.
             'df_components' (DataFrame): A DataFrame of network components.
             'graph_networkx' (networkx.Graph): A NetworkX graph object representing the network.
             'graph_igraph' (igraph.Graph): An iGraph graph object representing the network.
 
+            
+    Supports:
+    Kunz, S.N., Helkey, D., Zitnik, M., Phibbs, C.S., Rigdon, J., Zupancic, J.A. and Profit, J., 2021. 
+    Quantifying the variation in neonatal transport referral patterns 
+    using network analysis. Journal of Perinatology, 41(12), pp.2795-2803.
 
     Code written by:
     Marinka Zitnik, Ph.D., Assistant Professor
@@ -31,31 +40,28 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     """
     df = df_in.copy()
 
-    # #Treat nodes as strings 
-    # df[from_var] = df[from_var].astype(str)
-    # df[to_var] = df[to_var].astype(str)
-
     #Check for missing values
     variables_to_check = [from_var, to_var] + \
         ([id_var] if id_var is not None else [])
     for var in variables_to_check:
         if df[var].isnull().any():
             raise ValueError(f"Missing values in {var}.")
-        #Treat all identifying variables as strings
+        #Convert all identifier variables as strings
         df[var] = df[var].astype(str)  
 
     #Identify number of nodes and individuals
     all_nodes = set(df[from_var]).union(set(df[to_var]))
-        
     n_nodes = len(list(all_nodes))
     n_individuals = df[id_var].nunique() if id_var is not None else \
         len(df)
+    n_transfers = df.shape[0]
 
-    #Compute observed edges
+    # Observed edges
     edge_df = df.groupby([from_var, to_var]).size().reset_index(name='edge_weight')
+    #If edge_cutoff > 1, remove edges smaller than edge_cutoff
     edge_df = edge_df[edge_df['edge_weight'] >= edge_cutoff]
 
-    #Construct networkX representations 
+    #  NetworkX representations 
     #G - directed networkX graph
     G = nx.DiGraph()
     G.add_nodes_from(all_nodes)
@@ -63,7 +69,7 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     #G_undirected - undirected networkX graph
     G_undirected = G.to_undirected()
 
-    #Construct igraph representations 
+    # iGraph representations 
     #g - Directed Igraph 
     g = ig.Graph(directed=True)
     g.add_vertices(sorted(set(edge_df[from_var]).union(edge_df[to_var])))
@@ -74,15 +80,18 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     g.es['weight'] = weights
   
     #g_undirected - Undirected Igraph 
-    #Note - not required for computing the current included network metrics
     g_undirected = g.as_undirected() 
+
+    #Identify self loops
+    n_self_loops = nx.number_of_selfloops(G)
 
     # Number of Connected Components
     num_connected_components = nx.number_connected_components(G_undirected)
     connected_components_list = list(nx.connected_components(G_undirected))
 
     # Nodes within Connected Components
-    largest_connected_component_nodes = max(connected_components_list, key=len) if num_connected_components > 0 else set()
+    largest_connected_component_nodes = max(connected_components_list, key=len) if \
+                                            num_connected_components > 0 else set()
     max_node_percentage_by_component = len(largest_connected_component_nodes) / len(G_undirected) * 100  
 
     # Edge Weights within Connected Components 
@@ -92,18 +101,22 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     def component_weight(component):
         """Calculate sum of component edge weights
         """
-        return sum(edge_weights.get((min(u, v), max(u, v)), 0) for u, v in nx.edges(G_undirected.subgraph(component)))
+        return sum(edge_weights.get((min(u, v), max(u, v)), 0) for \
+                    u, v in nx.edges(G_undirected.subgraph(component)))
 
     # Largest Weighted Component
     if num_connected_components > 1:
-        largest_weighted_component = max(connected_components_list, key=component_weight)
+        largest_weighted_component = max(connected_components_list,
+                                          key=component_weight)
         largest_component_weight = component_weight(largest_weighted_component)
     else:
         # Calculate the weight for the single component
-        largest_component_weight = component_weight(connected_components_list[0]) if connected_components_list else 0
+        largest_component_weight = component_weight(connected_components_list[0]) if \
+                                    connected_components_list else 0
 
     # Calculate the percentage
-    max_weight_percentage_by_component = largest_component_weight / total_graph_weight * 100
+    max_weight_percentage_by_component = largest_component_weight / \
+                                             total_graph_weight * 100
 
     #Sumary dataframe of connected comonentes
     components = list(nx.connected_components(G_undirected))
@@ -118,8 +131,7 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     ])
     df_components.sort_values(by='Weight_Percentage', ascending=False, inplace=True)
 
-    #Compute network metrics
-
+    # Compute network metrics
     ## Efficiency
     #Global eficiency
     efficiency_global = nx.global_efficiency(G_undirected)
@@ -127,10 +139,10 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
     #Median local node efficiency
     local_efficiencies = []
     for node in G_undirected.nodes():
-        # Subgraph induced by the neighbors of the node
+        # Subgraph induced by node's neighbors 
         neighbors = list(nx.neighbors(G_undirected, node))
         if len(neighbors) < 2:
-            # Local efficiency is zero if a node has less than two neighbors
+            # Nodes with fewer than two neighbors have local efficiency = 0
             local_efficiencies.append(0)
             continue
 
@@ -162,12 +174,15 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
         nx.algorithms.community.greedy_modularity_communities(G_undirected))
     #Random walk modularity
     giant_component = g.components(mode='weak').giant()
-    random_walk = giant_component.community_walktrap(steps=5, weights=giant_component.es['weight']).as_clustering()
+    random_walk = giant_component.community_walktrap(steps=random_walk_steps,
+                     weights=giant_component.es['weight']).as_clustering()
     modularity_randomwalk = giant_component.modularity(random_walk.membership)
 
     network_metrics = {
         'n_individuals': n_individuals,
-        'n_nodes': len(all_nodes),
+        'n_nodes': n_nodes,
+        'n_transfers':n_transfers,
+        'n_self_loops':n_self_loops,
         'centrality_mean_receiving': centrality_mean_receiving,
         'centrality_median': centrality_median, #Centrality      
         'density_unweighted': density_unweighted,
@@ -201,7 +216,7 @@ def dataframe_from_networkx(graph):
     graph (nx.Graph): A NetworkX graph object.
 
     Returns:
-    pd.DataFrame: DataFrame representing edges of the graph.
+    pd.DataFrame: DataFrame[['source', 'target']] representing edges of the graph.
 
     Example:
     >>> G = nx.Graph()
