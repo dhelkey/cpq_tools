@@ -17,7 +17,9 @@ def compute_network_metrics(df_in, from_var='prevhsp', to_var='hospid',
         to_var (str): Destination node.
         id_var (str): Individual identifier.
         edge_cutoff (int): Minimum number of transfers to include edge.
-        random_walk_steps (int): Randdom walk steps for random walk modularity    Returns:
+        random_walk_steps (int): Randdom walk steps for random walk modularity    
+        
+    Returns:
         dict: A dictionary containing the following key-value pairs:
             'df_metrics' (DataFrame): A DataFrame containing network metrics.
             'df_components' (DataFrame): A DataFrame of network components.
