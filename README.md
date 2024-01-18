@@ -10,14 +10,17 @@ All code released under the [MIT License](LICENSE). Code is provied for user con
 
 Tools constructed with the assistance of generative AI tools, primarily ChatGPT-4.
 
+[Example Package Usage](EXAMPLE.ipynb)
+
+## Network
+
+
+
+
 
 ## Structure
 
 cpq_tools - Python tools, intended for CPQCC/CMQCC data analysis tasks
-
-
-[Network Metrics](Network_Metrics.md)
-
 
 [Data Preprocessing]
 
