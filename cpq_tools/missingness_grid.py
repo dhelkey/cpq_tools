@@ -1,10 +1,7 @@
 import pandas as pd
 
-def missingness_grid(df, var_list=None,
-                    col_var_list=None,
-                    annotation_dict=None,
-                    var_key_dict=None, 
-                    col_var_max_categories=5, decimals=1):
+def missingness_grid(df, var_list=None, col_var_list=None, annotation_dict=None,
+                      var_key_dict=None, col_var_max_categories=5, decimals=1):
     """Create a grid displaying the percentage of missing values for variable combinations.
 
     Args:
