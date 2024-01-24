@@ -6,17 +6,20 @@ from cpq_tools import process_excel_variable_file
 class TestDataFunctions(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        data_folder = Path(__file__).parent / 'data'
-        excel_file_path = data_folder / 'birth_key.xlsx'
-        cls.variable_description, cls.variable_keys = process_excel_variable_file(excel_file_path, values_col='values')
+        # data_folder = Path(__file__).parent / 'data'
+        # excel_file_path = data_folder / 'birth_key.xlsx'
+        package_dir = os.path.abspath('')  # Gets the current working directory
+        excel_path = os.path.join(package_dir, 'data', 'birth_key.xlsx')
+        excel_data = pd.read_excel(excel_path)
+        # cls.variable_description, cls.variable_keys = process_excel_variable_file(excel_file_path, values_col='values')
 
-        cls.expected_variables = ['ID', 'Name', 'BirthDate', 'EyeColor', 'Gender']
-        cls.eye_color_keys = ['Blue', 'Brown', 'Green', 'Hazel']
-        cls.gender_keys = ['Male', 'Female']
-        cls.expected_values = {
-            'EyeColor': {'Blue': '1', 'Brown': '2', 'Green': '3', 'Hazel': '4'},
-            'Gender': {'Male': 'M', 'Female': 'F'}
-        }
+        # cls.expected_variables = ['ID', 'Name', 'BirthDate', 'EyeColor', 'Gender']
+        # cls.eye_color_keys = ['Blue', 'Brown', 'Green', 'Hazel']
+        # cls.gender_keys = ['Male', 'Female']
+        # cls.expected_values = {
+        #     'EyeColor': {'Blue': '1', 'Brown': '2', 'Green': '3', 'Hazel': '4'},
+        #     'Gender': {'Male': 'M', 'Female': 'F'}
+        # }
 
     def test_variable_names(self):
         actual_variables = self.variable_description['variable'].tolist()

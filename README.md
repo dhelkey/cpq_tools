@@ -68,13 +68,3 @@ if package_dir_full not in sys.path:
 # Import package
 import cpq_tools as cpq
 ```
-<!-- 
-```
-package_path = 'path_to_zip_file.zip'
-#Unzip (If exists, warn, but overwrite)
-#Please Python code.
-
-#Linux server enings
-sed -i 's/\r//' ./unzip_cpq.sh
-
-./unzip_cpq.sh -->

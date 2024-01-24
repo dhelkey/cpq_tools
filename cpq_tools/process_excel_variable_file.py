@@ -11,16 +11,16 @@ def process_excel_variable_file(file_path,
                                  sheet_number=0, 
                                  verbose=False):
     """
-    Processes an EXCEL file (.xls or .xlsx) of variable info
-    Generates a DataFrame of variable descriptions and a dictionary of variable values.
+    Processes an EXCEL file (.xls or .xlsx) of variable information
+    Generates a DataFrame of variable descriptions
+     and a dictionary of variable values.
     NOTE - Uses excel, CSV is overwhelmed by including the key within a column.
     
     Parameters:
     file_path (str): Path to the Excel file.
     var_col (str): Column name for variables.
     desc_col (str): Column name for descriptions.
-    type_col (str): Column name for type.
-    values_col (str or None): Column name for values, or None if not used.
+
     sheet_number (int or str): Sheet number or name to use from the Excel file.
     verbose (bool): If True, prints additional information.
 

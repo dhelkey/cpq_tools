@@ -1,5 +1,5 @@
 from .table_one import table_one 
-from .network_funs import compute_network_metrics
+from .compute_network import compute_network
 from .missingness_grid import missingness_grid
 from .crosstab_three_way import crosstab_three_way
 from .process_excel_variable_file import process_excel_variable_file

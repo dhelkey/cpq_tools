@@ -2,3 +2,4 @@
 __pycache__
 TEST.ipynb
 EXAMPLE.ipynb
+cpq_tools/compute_network_metrics.py
