@@ -1,12 +1,10 @@
 # Package cpq_tools
 
-A collection of Python utilities, intended for California Perinatal/Maternal Quality Care Collaborative data processing and 
+A collection of Python utilities, intended for use by California Perinatal/Maternal Quality Care Collaborative statisticians for data processing and analysis tasks.
 
-Tools simplify analysis processing tasks, and are designed to 
+No PHI data or any actual infant level ata is include.
 
-Code is currently in a draft, unreleased state.
-
-All code released under the [MIT License](LICENSE). Code is provied for user conviencnece, with no guarentee is made regarding acuracy of results. ALl analaysis should be performed under the supervision of qualified personell.
+ALl code released under the [MIT License](LICENSE) in a draft, incomplete state. Code is provied for user conviencnece, with no guarentees made regarding acuracy of results. ALl analaysis should be performed under the supervision of qualified personell.
 
 Tools constructed with the assistance of generative AI tools, primarily ChatGPT-4.
 
@@ -14,13 +12,12 @@ Tools constructed with the assistance of generative AI tools, primarily ChatGPT-
 
 ## Network
 
-
-
-
+[Network](NETWORK_EXAMPLE.ipynb)
 
 ## Structure
 
 cpq_tools - Python tools, intended for CPQCC/CMQCC data analysis tasks
+
 
 [Data Preprocessing]
 

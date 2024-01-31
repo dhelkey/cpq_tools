@@ -13,7 +13,7 @@ def process_excel_variable_file(file_path,
     """
     Processes an EXCEL file (.xls or .xlsx) of variable information
     Generates a DataFrame of variable descriptions
-     and a dictionary of variable values.
+         and a dictionary of variable values.
     NOTE - Uses excel, CSV is overwhelmed by including the key within a column.
     
     Parameters:
