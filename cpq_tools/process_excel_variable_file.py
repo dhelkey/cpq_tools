@@ -29,6 +29,7 @@ def process_excel_variable_file(file_path,
     
     GPT-4 [20231116]
     """
+
     # Check if the file exists
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"The file {file_path} does not exist")
@@ -50,6 +51,7 @@ def process_excel_variable_file(file_path,
 
     rows = []
     variable_key_dict = {}
+    variable_description_dict = {}
     delimiters = ['=', '-', ':']
 
     for _, row in df.iterrows():
@@ -59,6 +61,9 @@ def process_excel_variable_file(file_path,
 
         # Append to the list for later concatenation
         rows.append({var_col: var, desc_col: desc, type_col: type_})
+
+        if desc_col and desc:
+            variable_description_dict[var] = desc
 
         # Process values if values_col is specified and not empty
         if values_col and pd.notna(row[values_col]) and row[values_col].strip() != "":
@@ -85,4 +90,4 @@ def process_excel_variable_file(file_path,
     if verbose:
         print(f"Processed {len(df)} entries")
 
-    return variable_description_df, variable_key_dict
+    return variable_description_df, variable_key_dict, variable_description_dict
