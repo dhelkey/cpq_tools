@@ -4,7 +4,8 @@ Setup code for STATE_DATA
 
 Define global variables
 
-STATE_DATA_PRIVATE.py - 
+Requires defining:
+    STATE_DATA_PRIVATE.py - 
 
     XXX - Contains the PHI data path
     XXX -  dictionarythe state datafile names
@@ -15,8 +16,8 @@ import sys
 import pandas as pd
 import numpy as np
 
-from STATE_DATA_PRIVATE import STATE_DATA_DOCUMENTATION_FILE, \
-    PHI_DATA_PATH #XXX
+# from STATE_DATA_PRIVATE import STATE_DATA_DOCUMENTATION_FILE, \
+#     PHI_DATA_PATH #XXX
 
 
 #Parameters & Settings
