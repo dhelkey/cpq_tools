@@ -2,10 +2,10 @@
 Setup code for STATE_DATA
 
 
-Define global variables
+Define variables  for analysis
 
-Requires defining:
-    STATE_DATA_PRIVATE.py - 
+Requires:
+    STATE_DATA_PRIVATE.py (NOT uploaded) - 
 
     XXX - Contains the PHI data path
     XXX -  dictionarythe state datafile names
@@ -16,12 +16,10 @@ import sys
 import pandas as pd
 import numpy as np
 
-# from STATE_DATA_PRIVATE import STATE_DATA_DOCUMENTATION_FILE, \
-#     PHI_DATA_PATH #XXX
-
+from STATE_DATA_PRIVATE import STATE_DATA_DOCUMENTATION_FILE, \
+    STATE_DATA_FILES, PHI_DATA_PATH
 
 #Parameters & Settings
-
 
 #Extract and parse full list of variables from STATE_DATA_DOCUMENTATION.xlsx
 VARIABLE_DF, VARIABLE_KEY_DICT, \
@@ -32,7 +30,6 @@ VARIABLE_DF, VARIABLE_KEY_DICT, \
     type_col="Type",
     values_col='Values'
 )
-variable_key_dict
 
 
 #Included study variables

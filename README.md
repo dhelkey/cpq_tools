@@ -8,16 +8,19 @@ ALl code released under the [MIT License](LICENSE) in a draft, incomplete state.
 
 Tools constructed with the assistance of generative AI tools, primarily ChatGPT-4.
 
-[Example Package Usage](EXAMPLE.ipynb)
+
+
+## STATE_DATA
+
+[STATE_DATA package usage](STATE_DATA_README.md)
 
 ## Network
 
 [Network](NETWORK_EXAMPLE.ipynb)
 
-## Structure
+## cpq_tools
 
-cpq_tools - Python tools, intended for CPQCC/CMQCC data analysis tasks
-
+Python tools, intended for CPQCC/CMQCC data analysis tasks
 
 [Data Preprocessing]
 
@@ -35,6 +38,9 @@ Generate crosstabulations of variable missingess
 compute_network_metrics()
 
 Compute network metrics from individual records
+
+[Example Package Usage](EXAMPLE.ipynb)
+
 
 # Using CPQ Tools Without Installation
 

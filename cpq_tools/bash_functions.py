@@ -49,6 +49,8 @@ def write_bsub(job_name, code_file):
     wF(outfile, bsub_code)
 
     out_command = f"BSUB < {outfile}"
-    return(out_command)
+    out = {'out_command':out_command, 
+           'bsub_code':bsub_code}
+    return(out)
 
 

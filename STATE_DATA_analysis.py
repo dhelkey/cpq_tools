@@ -20,5 +20,11 @@ Analysis of STATE_DATA dataset, created by:
 
 #Read in data
 
+
+#Construct frequency tables
+
+#Years, by state - including missing
+#RE, by state - incluing missing
+
 #Construct missingness report
 #First, overall missingness, verifying that all desired variables present
