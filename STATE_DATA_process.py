@@ -3,19 +3,13 @@ Process STATE_DATA, save overall STATE_DATA and individual [STATE]:
                     INFANT and LONG records
                         For the FULL dataset and subsampled QUICK dataset
 
-File names/paths definedd in PRIVATE file
-#PHI_DATA_PATH - Location of PHI data - All intermediate data saved here.
-#STATE_DATA_DATA_FILES  - Dictionary of STATE_DATA files
-#                        STATE:(INFANT, LONG)
-#STATE_DATA_DOCUMENTATION_FILE - Path to documentation file (excel)
-#STATE_DATA_VARIABLE_FILE - Path to included variable table (excel)
-
-
 OUTPUTS
         [STATE]_[INFANT/LONG]_[FULL/QUICK]
         STATE_DATA_[INFANT/LONG]_[FULL/QUICK]
 
 """
+
+import STATE_DATA_setup as setup
 
 def state_data_process(df_in):
     """
@@ -31,27 +25,17 @@ def state_data_process(df_in):
     
     #Convert column names to lowercase
 
-    #TODO type this out
-    missing_value_variables = {''}
-    #Identifying Missing Values
-    #Constructs [variable]_m for variables with missing value codes
-    #Replaces variable specific missing value codes (0,99,...)
-    # with np.nan "."
-    # This can simplify analysis in certain situations
-    # E.g. Missing value reports, consistant regression handling
+    #Convert all Missing/Unknown variables to "N/A" (np.nan)
+    #Append "_m" (missing) to end of variable name
+    for var_without_na, na_code_vec \
+        in setup.missing_unknown_variable_dict.items():
+        var_with_na = f"{var_without_na}_m"
+        df[var_with_na] = df[var_without_na]
+        df.loc(df[var_withoht_na].isin(na_code_vec))
 
 
     #Construct date variables
 
-def _read_csv_stata(file_path):
-    """Helper function to ientify and read in CSV or STATA data file
-    """
-    if file_path.endswith('.csv'):
-        return pd.read_csv(file_path)
-    elif file_path.endswith('.dta'):
-        return pd.read_stata(file_path)
-    else:
-        raise ValueError("Unsupported file type. Please provide a '.csv' or '.dta' file.")
 
 for state, (file_infant, file_long) in STATE_DATA_FILES.items():
 
@@ -65,7 +49,7 @@ for state, (file_infant, file_long) in STATE_DATA_FILES.items():
         df_raw = _read_csv_stata(file_path)
         df_raw['state'] = state
 
-        df_processsed = process_state_data(df_raw)
+        df_processsed = setup.process_state_data(df_raw)
 
         #Print rows, columns of df_raw vs df_processed
 
