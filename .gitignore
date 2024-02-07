@@ -1,8 +1,8 @@
 *.sh
+*.zip
 .vscode
 __pycache__
 TEST.ipynb
 EXAMPLE.ipynb
-cpq_tools/compute_network_metrics.py
 cpq_tools/data/state_data_documentation.xlsx
 STATE_DATA_PRIVATE.py
