@@ -36,11 +36,7 @@ Constructed by STATE_DATA_setup.py:
     missing_unknown_var_dict - Variable values corrosponding to missing/unknown
 
 #IMPORT CODE
-
 """
-
-
-
 #Python imports
 import pandas as pd
 
@@ -60,11 +56,14 @@ from STATE_DATA_PRIVATE import file_var_documentation, \
     file_included_vars, phi_data_path, state_infant_long_files
 
 #Extract and parse full list of variables from STATE_DATA_DOCUMENTATION.xlsx
-#All variables, including extranious variables, currently unused for analysis
+#All variables, including extranious variables, currently unused in analysis
 #WE are interested in 3 dictionaries (key = variable name)
 #         - type (categorical, continious,...)
 #         - description
 #         - values (dictionary key)
+
+##TODO rename these
+#
 VARIABLE_INFO_DF, VARIABLE_KEY_DICT, \
       VARIABLE_DESC_DICT = process_excel_variable_file(
     STATE_DATA_DOCUMENTATION_FILE,
@@ -73,9 +72,6 @@ VARIABLE_INFO_DF, VARIABLE_KEY_DICT, \
     type_col="Type",
     values_col='Values'
 )
-
-#Read in list of included variables
-
 
 #Variables with missing values encoded (We use all lowercase variable names)
 missing_unknown_var_dict = {'bcmod_route':[9],
@@ -96,6 +92,8 @@ missing_unknown_var_dict = {'bcmod_route':[9],
     #  1. Statistical functions may drop NA values
     # 2. Default comparison category may change for categorical variables
 
+
+#TODO Here is the main todo
 #Add recoded missing values to each of the type, description, and values dictionaries
 
 
@@ -103,6 +101,8 @@ missing_unknown_var_dict = {'bcmod_route':[9],
 #   VARIABLE_KEY_DICT, VARIABLE_DESC_DICT
 
 #Parse list of variables included for analysis
+#Read in list of included variables #(Name, description, constructed, type (just for constructed))
+#Add in unincluded variables to the dictinaries (type, descrition, (no categorical variables constructed?))
 
 #Create a processe 
 
