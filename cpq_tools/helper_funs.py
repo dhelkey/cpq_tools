@@ -41,9 +41,5 @@ class ComputeInfo:
 
 # # Example usage
 # compute_info = ComputeInfo()
-# # Simulate some operations
-# time.sleep(2)  # Simulating delay
-# compute_info.info()  # First call to info
-# # Simulate more operations
-# time.sleep(2)  # Simulating more delay
-# compute_info.info()  # Subsequent call to info
+# .....
+# compute_info.info()  # Display compute info
