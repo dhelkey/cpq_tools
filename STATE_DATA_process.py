@@ -20,7 +20,7 @@ import STATE_DATA_setup as setup
 #Processing parameters
 p_subsample = 0.05 #Percentage of data to subsample 
 
-##Subsample Pandas dataframe (Note - Subsampling is more involved for LONG dataset
+##Subsample Pandas dataframe df (Note - Subsampling is more involved for LONG dataset
 
 def state_data_process_infant(df_in):
     """
@@ -68,11 +68,15 @@ for state, (file_infant, file_long) in STATE_DATA_FILES.items():
         df_raw['state'] = state
 
         df_processsed = setup.process_state_data(df_raw)
-        df_subsampled = None #Add subsampling here
-        
         #Print rows, columns of df_raw vs df_processed
         print('raw', df_raw.shape,'processed', df_processed.shape)
         #Print number of subsampled rows
+
+        # Calculate the number of rows to sample
+        n_samples = int(len(df_processsed) * p_subsample)
+        # Subsample the DataFrame
+        df_subsampled = df.sample(n=n_samples)
+        print('sampled', df_subsampled.shape)
 
         quick_dict = {'full':df_processsed,
                       'quick':df_subsampled}
@@ -91,5 +95,6 @@ for data_type in data_type_vec:
                 full_save_file_name = f"STATE_DATA_{data_type}_{data_length}.pkl"
                 full_save_file_path = os.path.join(setup.phi_data_path,
                                                    full_save_file_name)
-                full_out_df = pd.concat(data_list[data_type][data_length])
+                #Combine Pandas dataframes
+                full_out_df = pd.concat(data_list[data_type][data_length], axis=1)
                 full_out_df.to_pickle(full_save_file_path)
