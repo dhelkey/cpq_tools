@@ -20,7 +20,7 @@ from STATE_DATA_setup import phi_data_path, \
     missing_unknown_variable_dict, state_infant_long_files
 # import STATE_DATA_setup as setup
 
-compute_info = ComputeInfo()
+compute_info = computeInfo()
 
 #Processing parameters
 p_subsample = 0.05 #Percentage of data to subsample 

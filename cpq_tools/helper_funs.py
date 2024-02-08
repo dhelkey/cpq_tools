@@ -13,7 +13,7 @@ def rF(infile):
 
 import psutil
 import time
-class ComputeInfo:
+class computeInfo:
     def __init__(self):
         self.start_time = time.time()
         self.initial_memory = psutil.Process().memory_info().rss / (1024 ** 2)  # Memory in MB
