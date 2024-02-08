@@ -23,6 +23,10 @@ def generate_bsub_code(py_file, job_name="my_python_job",
 #BSUB -J {job_name} # LSF Job Name
 #BSUB -o {output_file} # Name of the job output file
 #BSUB -e {error_file} # Name of the job error file
+#BSUB -u dhelkey@stanford.edu
+#BSUB -B #Start notification
+#BSUB -N #END notification
+
 module unload python
 module load python/{py_version}
 python --version
@@ -48,7 +52,7 @@ def write_bsub(job_name, code_file):
     #Write .sh file
     wF(outfile, bsub_code)
 
-    out_command = f"BSUB < {outfile}"
+    out_command = f"bsub < {outfile}"
     out = {'out_command':out_command, 
            'bsub_code':bsub_code}
     return(out)
