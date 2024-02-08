@@ -9,3 +9,41 @@ def rF(infile):
     """Read infile contents"""
     with open(infile,'r') as f:
         return f.read()
+    
+
+import psutil
+import time
+class ComputeInfo:
+    def __init__(self):
+        self.start_time = time.time()
+        self.initial_memory = psutil.Process().memory_info().rss / (1024 ** 2)  # Memory in MB
+        self.last_memory = self.initial_memory
+
+    def info(self):
+        """Prints the elapsed time in H:M:S, current memory usage, and memory usage change since last call."""
+        current_time = time.time()
+        current_memory = psutil.Process().memory_info().rss / (1024 ** 2)  # Memory in MB
+        elapsed_time = current_time - self.start_time
+        memory_change = current_memory - self.last_memory
+        total_memory_change = current_memory - self.initial_memory
+
+        # Calculate H:M:S from elapsed_time
+        hours, remainder = divmod(elapsed_time, 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        print(f"Elapsed Time: {int(hours)} hours, {int(minutes)} minutes, {int(seconds)} seconds")
+        print(f"Current Memory Usage: {current_memory:.2f} MB")
+        print(f"Memory Change Since Last Call: {memory_change:.2f} MB")
+        print(f"Total Memory Change Since Instantiation: {total_memory_change:.2f} MB")
+
+        # Update last memory usage for the next call
+        self.last_memory = current_memory
+
+# # Example usage
+# compute_info = ComputeInfo()
+# # Simulate some operations
+# time.sleep(2)  # Simulating delay
+# compute_info.info()  # First call to info
+# # Simulate more operations
+# time.sleep(2)  # Simulating more delay
+# compute_info.info()  # Subsequent call to info

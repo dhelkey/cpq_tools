@@ -15,9 +15,12 @@ OUTPUTS (PICKLE outputs - Stored in PHI data directory)
 """
 import os
 import numpy as np
+from cpq_tools import ComputeInfo
 from STATE_DATA_setup import phi_data_path, \
     missing_unknown_variable_dict
 # import STATE_DATA_setup as setup
+
+compute_info = ComputeInfo()
 
 #Processing parameters
 p_subsample = 0.05 #Percentage of data to subsample 
@@ -62,6 +65,7 @@ full_data_dict = {data_type: {data_length: [] for \
 for state, (file_infant, file_long) in private.state_infant_long_files = {
 .items():
 
+    compute_info.info()
     file_dict = {'infant':file_infant, 'long':file_long}
     for data_type, file_use in file_dict.items():
         if data_type=='long':
@@ -102,3 +106,6 @@ for data_type in data_type_vec:
                 #Combine Pandas dataframes
                 full_out_df = pd.concat(data_list[data_type][data_length], axis=1)
                 full_out_df.to_pickle(full_save_file_path)
+
+compute_info.info()
+print('Data parsed')
