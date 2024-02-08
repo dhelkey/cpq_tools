@@ -3,11 +3,6 @@ Setup code and parameters for STATE_DATA
 
 Usage:
 from STATE_DATA_setup import variable1, variable2 
--or-
-import STAT_DATA_setup as setup
-
-setup.variable1
-setup.variable2
 
 Requires:
     STATE_DATA_PRIVATE.py (NOT uploaded)
@@ -15,6 +10,15 @@ Requires:
 #TODO - Add tests (ensure data loads correctly with script changes)
 
 """
+#Imports
+import pandas as pd
+from cpq_tools import process_excel_variable_file
+
+#Import parameters and settings from the PRIVATE file (not uploaded)
+# from STATE_DATA_PRIVATE import phi_data_path, state_infant_long_files
+
+from STATE_DATA_PRIVATE import phi_data_path, \
+    state_infant_long_files, file_var_documentation, file_vars_use
 
 #Documentation of variables defined in this script
 var_key_docstring = """
@@ -37,8 +41,6 @@ Constructed by STATE_DATA_setup.py:
 
 #IMPORT CODE
 """
-#Python imports
-import pandas as pd
 
 #Define helper functions
 def read_csv_stata(file_path):
@@ -51,11 +53,8 @@ def read_csv_stata(file_path):
     else:
         raise ValueError("Unsupported file type. Please provide a '.csv' or '.dta' file.")
     
-#Import parameters and settings from the PRIVATE file (not uploaded)
-from STATE_DATA_PRIVATE import file_var_documentation, \
-    file_included_vars, phi_data_path, state_infant_long_files
 
-#Extract and parse full list of variables from STATE_DATA_DOCUMENTATION.xlsx
+#Extract and parse full list of variables from STATE_DATA_documentation.xlsx
 #All variables, including extranious variables, currently unused in analysis
 #WE are interested in 3 dictionaries (key = variable name)
 #         - type (categorical, continious,...)
@@ -63,15 +62,37 @@ from STATE_DATA_PRIVATE import file_var_documentation, \
 #         - values (dictionary key)
 
 ##TODO rename these
-#
-VARIABLE_INFO_DF, VARIABLE_KEY_DICT, \
-      VARIABLE_DESC_DICT = process_excel_variable_file(
-    STATE_DATA_DOCUMENTATION_FILE,
+# #
+# VARIABLE_INFO_DF, VARIABLE_KEY_DICT, \
+#       VARIABLE_DESC_DICT = 
+
+parsed_documentation = process_excel_variable_file(
+    file_var_documentation,
     var_col="Variable", 
     desc_col="Description/Label", 
     type_col="Type",
     values_col='Values'
 )
+
+#Extracting parsed documentation (All documentation stored in these 
+# parsed dictionaries)
+var_key_dict =  parsed_documentation['var_key_dict']
+var_desc_dict = parsed_documentation['desc_dict']
+var_type_dict = parsed_documentation['type_dict']
+
+state_data_vars_dat = pd.read_excel(file_vars_use)
+
+#CAN DO THIS ONCE WE GET PARSING WORKING, THAT IS MINIMUM RIGHT NOW.
+# #Iterate over 
+# for _, row in state_data_vars_dat.iterrows():
+
+
+#Read STATE_DATA_vars_use.xlsx 
+#Overwrite any variable descriptions 
+#Frome this, ADD the variable names (constructed=1) to var_disc_dict
+#Right now, we are focusing on var_desc_dict
+#ADD any variables with
+
 
 #Variables with missing values encoded (We use all lowercase variable names)
 missing_unknown_var_dict = {'bcmod_route':[9],

@@ -15,14 +15,17 @@ OUTPUTS (PICKLE outputs - Stored in PHI data directory)
 """
 import os
 import numpy as np
-import STATE_DATA_setup as setup
+from STATE_DATA_setup import phi_data_path, \
+    missing_unknown_variable_dict
+# import STATE_DATA_setup as setup
 
 #Processing parameters
 p_subsample = 0.05 #Percentage of data to subsample 
 
-##Subsample Pandas dataframe df (Note - Subsampling is more involved for LONG dataset
+##Subsample Pandas dataframe df 
+#NOTE- Subsampling is more involved for LONG dataset
 
-def state_data_process_infant(df_in):
+def process_state_data_infant(df_in):
     """
     Processing script to prepare STATE_DATA for analysis
     Applied individually to each State for processing INFANT data
@@ -36,7 +39,7 @@ def state_data_process_infant(df_in):
     #Convert all Missing/Unknown variables to "N/A" (np.nan)
     #Append "_m" (missing) to end of variable name
     for var_without_na, na_code_vec \
-        in setup.missing_unknown_variable_dict.items():
+        in missing_unknown_variable_dict.items():
         var_with_na = f"{var_without_na}_m"
         df[var_with_na] = df[var_without_na]
         df.loc[df[var_without_na].isin(na_code_vec), 
@@ -56,18 +59,19 @@ full_data_dict = {data_type: {data_length: [] for \
                 data_length in data_length_vec} for \
                      data_type in data_type_vec}
 
-for state, (file_infant, file_long) in STATE_DATA_FILES.items():
+for state, (file_infant, file_long) in private.state_infant_long_files = {
+.items():
 
     file_dict = {'infant':file_infant, 'long':file_long}
     for data_type, file_use in file_dict.items():
         if data_type=='long':
             continue #Finalize INFANT processing code before reading in LONG code
-        file_path = setup.phi_data_path + file_use
+        file_path = phi_data_path + file_use
 
         df_raw = read_csv_stata(file_path)
         df_raw['state'] = state
 
-        df_processsed = setup.process_state_data(df_raw)
+        df_processsed = process_state_data_infant(df_raw)
         #Print rows, columns of df_raw vs df_processed
         print('raw', df_raw.shape,'processed', df_processed.shape)
         #Print number of subsampled rows
@@ -82,7 +86,7 @@ for state, (file_infant, file_long) in STATE_DATA_FILES.items():
                       'quick':df_subsampled}
         for data_length, df_save in quick_dict.items():
             state_save_file_name = f"{state}_{data_type}_{data_length}.pkl"
-            state_save_file_path = os.path.join(setup.phi_data_path, 
+            state_save_file_path = os.path.join(phi_data_path, 
                                            state_save_file_name)
             #Save dataset [state]_[data_type]_[full/small].pkl
             df_save.to_pickle(state_save_file_path)
@@ -93,7 +97,7 @@ for state, (file_infant, file_long) in STATE_DATA_FILES.items():
 for data_type in data_type_vec:
             for data_length in data_length_vec:
                 full_save_file_name = f"STATE_DATA_{data_type}_{data_length}.pkl"
-                full_save_file_path = os.path.join(setup.phi_data_path,
+                full_save_file_path = os.path.join(phi_data_path,
                                                    full_save_file_name)
                 #Combine Pandas dataframes
                 full_out_df = pd.concat(data_list[data_type][data_length], axis=1)
