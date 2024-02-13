@@ -82,11 +82,6 @@ var_type_dict = parsed_documentation['type_dict']
 
 state_data_vars_dat = pd.read_excel(file_vars_use)
 
-#CAN DO THIS ONCE WE GET PARSING WORKING, THAT IS MINIMUM RIGHT NOW.
-# #Iterate over 
-# for _, row in state_data_vars_dat.iterrows():
-
-
 #Read STATE_DATA_vars_use.xlsx 
 #Overwrite any variable descriptions 
 #Frome this, ADD the variable names (constructed=1) to var_disc_dict
