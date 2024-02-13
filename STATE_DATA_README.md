@@ -2,6 +2,9 @@
 
 Files for analysis of infant and infant-transfer STATE_DATA files.
 
+Our Processing and analysis code is open source. All PHI data storeage, processing, and analysis are performed on secure servers.
+
+
 # Project Files 
 
 | File Name                  | Description |
