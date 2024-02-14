@@ -53,7 +53,6 @@ def read_csv_stata(file_path):
     else:
         raise ValueError("Unsupported file type. Please provide a '.csv' or '.dta' file.")
     
-
 #Extract and parse full list of variables from STATE_DATA_documentation.xlsx
 #All variables, including extranious variables, currently unused in analysis
 #WE are interested in 3 dictionaries (key = variable name)
@@ -75,7 +74,7 @@ parsed_documentation = process_excel_variable_file(
 )
 
 #Extracting parsed documentation (All documentation stored in these 
-# parsed dictionaries)
+#parsed dictionaries)
 var_key_dict =  parsed_documentation['var_key_dict']
 var_desc_dict = parsed_documentation['desc_dict']
 var_type_dict = parsed_documentation['type_dict']

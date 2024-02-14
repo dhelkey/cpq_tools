@@ -30,8 +30,8 @@ p_subsample = 0.05 #Percentage of data to subsample
 
 def process_state_data_infant(df_in):
     """
-    Processing script to prepare STATE_DATA for analysis
-    Applied individually to each State for processing INFANT data
+    Prepares STATE_DATA INFANT file for analysis
+    Applied individually to each State for processing the cleaned dataset of infant data
 
     """
     df = df_in.copy()
@@ -51,8 +51,28 @@ def process_state_data_infant(df_in):
     return df
 
     #Construct date variables
+    df['year_covid'] = 0
+    df['year_aca'] = 0
+    df.loc[df['year']==2020, 'year_covid'] = 1
+    df.loc[df['year']>-2014, 'year_aca'] = 1
+
+    #Hypertension (any)
+    # Conditions and their values
+    hyper_conditions = [
+        ((df['sl_htnchr'] == 0) | (df['sl_htnges'] == 0)),  # Condition for setting to 0
+        ((df['sl_htnchr'] == 1) | (df['sl_htnges'] == 1))]  # Condition for setting to 1
+    hyper_choices = [0, 1]
+    df['hyper_any'] = np.select(hyper_conditions, hyper_choices, default=np.nan)
+
 
     #Identify infant survival
+    
+
+def process_state_data_long(df_in):
+     """
+     Process
+     """
+
 
 #Full data storage
 data_type_vec = ['infant', 'long']
