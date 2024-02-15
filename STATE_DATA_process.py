@@ -58,10 +58,10 @@ def process_state_data_infant(df_in):
 
     #Hypertension (any)
     # Conditions and their values
-    hyper_conditions = [
-        ((df['sl_htnchr'] == 0) | (df['sl_htnges'] == 0)),  # Condition for setting to 0
-        ((df['sl_htnchr'] == 1) | (df['sl_htnges'] == 1))]  # Condition for setting to 1
-    hyper_choices = [0, 1]
+    hyper_conditions = [ #First condition to evaluate "True" is selected
+         ((df['sl_htnchr'] == 1) | (df['sl_htnges'] == 1)), #Hypertention indicated
+        ((df['sl_htnchr'] == 0) | (df['sl_htnges'] == 0)),  #No hypertension indicated
+    hyper_choices = [1, 0]
     df['hyper_any'] = np.select(hyper_conditions, hyper_choices, default=np.nan)
 
 
