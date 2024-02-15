@@ -4,6 +4,6 @@
 __pycache__
 TEST.ipynb
 EXAMPLE.ipynb
-cpq_tools/data/state_data_documentation.xlsx
 STATE_DATA_PRIVATE.py
 STATE_DATA/doc/
+STATE_DATA/data/state_data_documentation.xlsx
