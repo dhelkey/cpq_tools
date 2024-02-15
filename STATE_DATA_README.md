@@ -17,7 +17,7 @@ Processing and analysis code is open source. All PHI data storage, processing, a
 
 # License
 
-Code provide in a draft, unreleased state into the [public domain](UNLICENSE).
+ALl code released into the [public domain](UNLICENSE).
 
 
 
