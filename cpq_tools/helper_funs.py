@@ -1,5 +1,7 @@
 
-#Functions for reading and writing files
+from IPython.display import display, Markdown
+
+#Functions for writing, reading, and displaying files
 def wF(outfile, file_contents):
     """Write file_contents to outfile"""
     with open(outfile, 'w') as f:
@@ -9,6 +11,10 @@ def rF(infile):
     """Read infile contents"""
     with open(infile,'r') as f:
         return f.read()
+    
+def dF(infile):
+    """Display File using Markdown"""
+    display(Markdown(infile))
     
 
 import psutil
@@ -41,5 +47,7 @@ class computeInfo:
 
 # # Example usage
 # compute_info = ComputeInfo()
+# .....
+# code runs here
 # .....
 # compute_info.info()  # Display compute info
