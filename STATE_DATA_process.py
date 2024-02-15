@@ -23,7 +23,7 @@ from STATE_DATA_setup import phi_data_path, \
 compute_info = computeInfo()
 
 #Processing parameters
-p_subsample = 0.05 #Percentage of data to subsample 
+p_subsample = 0.05 #Percentage of data to subsample for quick=True datasets
 
 ##Subsample Pandas dataframe df 
 #NOTE- Subsampling is more involved for LONG dataset
@@ -70,7 +70,7 @@ def process_state_data_infant(df_in):
 
 def process_state_data_long(df_in):
      """
-     Process
+     Process LONG
      """
 
 
