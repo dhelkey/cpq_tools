@@ -4,11 +4,9 @@ A collection of Python utilities, intended for use by California Perinatal/Mater
 
 No PHI data or any actual infant level ata is include.
 
-ALl code released under the [MIT License](LICENSE) in a draft, incomplete state. Code is provied for user conviencnece, with no guarentees made regarding acuracy of results. ALl analaysis should be performed under the supervision of qualified personell.
+ALl code released into the [public domain] (UNLICENSE) in a draft state, for user conviencnece. All analysis using these tools should be performed under the supervision of qualified personell.
 
 Tools constructed with the assistance of generative AI tools, primarily ChatGPT-4.
-
-
 
 ## STATE_DATA
 
