@@ -2,8 +2,6 @@
 Python helper functions for STATE_DATA project 
 """
 
-
-
 def process_state_data_infant(df_in):
     """
     Prepares STATE_DATA INFANT file for analysis
@@ -40,9 +38,8 @@ def process_state_data_infant(df_in):
     hyper_choices = [1, 0]
     df['hyper_any'] = np.select(hyper_conditions, hyper_choices, default=np.nan)
 
+    #Infant survival
 
-    #Identify infant survival
-    
 
 def process_state_data_long(df_in):
      """
