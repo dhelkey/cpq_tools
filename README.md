@@ -54,12 +54,6 @@ git clone https://github.com/dhelkey/cpq_tools.git
 cd cpq_tools
 git pull
 ```
-
-IF there are problems connecting to Github, download [package ZIP file](https://github.com/dhelkey/cpq_tools.git) and extract manually:
-```
-unzip cpq_tools-main.zip 'cpq_tools-main/*' -d ~/ && mv ~/cpq_tools-main/* ~/ && rmdir ~/cpq_tools-main
-```
-
 Add the following code at the beginning of your script:
 
    ```
