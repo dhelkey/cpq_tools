@@ -1,5 +1,5 @@
-#Preprocessing code, primarily generating geographic data and
-#data for hospitals
+#Preprocessing code, primarily charge data code preprocessing, generating geographic data and
+#constructing hospital data 
 
 
 #Import 
@@ -16,6 +16,10 @@ def get_zipcode(lat, long):
     result = search.by_coordinates(lat = lat, lng = long, returns = 1)
     print(result)
     return result[0].zipcode
+
+
+
+#
 
 
 #Test this function
