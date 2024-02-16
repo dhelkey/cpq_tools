@@ -11,3 +11,4 @@ cpq_tools/compute_network.py
 cpq_tools_CHEAT_SHEET.ipynb
 doc/
 !doc/license_info.md
+index_page.ipynb
