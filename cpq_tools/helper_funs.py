@@ -48,6 +48,6 @@ class computeInfo:
 # # Example usage
 # compute_info = ComputeInfo()
 # .....
-# code runs here
+# code here
 # .....
 # compute_info.info()  # Display compute info
