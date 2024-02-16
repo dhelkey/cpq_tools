@@ -7,19 +7,14 @@ Analysis of STATE_DATA dataset, created by:
 
 """
 
-
-
+quick = True #Default to quick analysis
 
 ##COMMON CODE TO BOTH FUNCTIONS. 
-
 
 #Read in keys
 #Read in desired variables 
 
-
-
 #Read in data
-
 
 #Construct frequency tables
 
