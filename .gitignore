@@ -9,3 +9,5 @@ STATE_DATA/doc/
 STATE_DATA/data/state_data_documentation.xlsx
 cpq_tools/compute_network.py
 cpq_tools_CHEAT_SHEET.ipynb
+doc/
+!doc/license_info.md
