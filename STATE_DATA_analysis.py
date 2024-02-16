@@ -9,6 +9,9 @@ Analysis of STATE_DATA dataset, created by:
 
 quick = True #Default to quick analysis
 
+
+for state in state_infant_long_files.keys():
+
 ##COMMON CODE TO BOTH FUNCTIONS. 
 
 #Read in keys
