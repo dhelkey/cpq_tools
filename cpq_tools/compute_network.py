@@ -38,6 +38,8 @@ def compute_network(df_in, from_var='prevhsp', to_var='hospid',
     Compiled by:
     Daniel Helkey, MS
     Email: dhelkey@stanford.edu
+
+    This code is copyright Marinka Zitnik (primary) & Daniel Helkey
     """
     df = df_in.copy()
 
