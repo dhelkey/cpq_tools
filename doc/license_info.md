@@ -39,10 +39,16 @@ Original software code falls under the rubric of copyrighted intellectual proper
 The office provides three options for licensing code:
 
 1. Software can be put in the public domain, i.e., copyright is not claimed and anyone can use the software for any purpose and without payment
-2. Copyrighted software can be licensed (including through an open source license) to the academic community with or without payment, and with or without other restrictions
-3. Copyrighted software can be licensed (including through an open source license) to the commercial community with or without payment, and with or without other restrictions.
+2. Copyrighted software can be licensed (including through an open source license)
+ to the academic community with or without payment, and with or without oth0er restrictions
+3. Copyrighted software can be licensed (including through an open source license) 
+to the commercial community with or without payment, and with or without other restrictions.
 
-Note: "Open source is different from public domain. Copyrighted software can be licensed under an open source license.
+Note: "Open source is different from public domain. 
+Copyrighted software can be licensed under an open source license.
 
-To be licensable under any kind of license (including an open source license), Stanford must have clear copyright ownership to all portions of the software i.e., the software must contain code written only by creators who assign copyright to Stanford. It is responsibility of Stanford creators to ensure that Stanford has rights to software created at Stanford."
+To be licensable under any kind of license (including an open source license), 
+Stanford must have clear copyright ownership to all portions of the software 
+i.e., the software must contain code written only by creators who assign copyright to Stanford. 
+It is responsibility of Stanford creators to ensure that Stanford has rights to software created at Stanford."
 ```
