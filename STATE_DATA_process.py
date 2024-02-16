@@ -15,7 +15,7 @@ OUTPUTS (PICKLE outputs - Stored in PHI data directory)
 """
 import os
 import numpy as np
-from cpq_tools import ComputeInfo
+from cpq_tools import computeInfo
 from STATE_DATA_setup import phi_data_path, \
     missing_unknown_variable_dict, state_infant_long_files
 from STATE_DATA import process_state_data_infant, \
