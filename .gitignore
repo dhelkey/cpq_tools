@@ -7,3 +7,4 @@ EXAMPLE.ipynb
 STATE_DATA_PRIVATE.py
 STATE_DATA/doc/
 STATE_DATA/data/state_data_documentation.xlsx
+cpq_tools/compute_network.py
