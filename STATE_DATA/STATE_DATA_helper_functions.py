@@ -2,7 +2,7 @@
 Python helper functions for STATE_DATA project 
 """
 import numpy as np
-
+import pandas as pd
 def read_csv_stata(file_path):
     """Helper function to ientify and read in CSV or STATA data file
     """
@@ -35,8 +35,6 @@ def process_state_data_infant(df_in,
         df.loc[df[var_without_na].isin(na_code_vec), 
                va_with_na] = np.nan
         
-    
-
     #Construct date variables
     df['year_covid'] = 0
     df['year_aca'] = 0
