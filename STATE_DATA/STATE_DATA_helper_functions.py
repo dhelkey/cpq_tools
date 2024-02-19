@@ -33,7 +33,7 @@ def process_state_data_infant(df_in,
         df.loc[df[var_without_na].isin(na_code_vec), 
                va_with_na] = np.nan
         
-    return df
+    
 
     #Construct date variables
     df['year_covid'] = 0
@@ -51,6 +51,7 @@ def process_state_data_infant(df_in,
 
     #Infant survival
 
+    return df
 
 def process_state_data_long(df_in):
      """
