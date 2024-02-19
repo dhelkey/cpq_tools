@@ -55,12 +55,12 @@ for state, (file_infant, file_long) in state_infant_long_files.items():
         #Print number of subsampled rows
 
         # Calculate the number of rows to sample
-        n_samples = int(len(df_processsed) * p_subsample)
+        n_samples = int(len(df_processed) * p_subsample)
         # Subsample the DataFrame
         df_subsampled = df.sample(n=n_samples)
         print('sampled', df_subsampled.shape)
 
-        quick_dict = {'full':df_processsed,
+        quick_dict = {'full':df_processed,
                       'quick':df_subsampled}
         for data_length, df_save in quick_dict.items():
             state_save_file_name = f"{state}_{data_type}_{data_length}.pkl"
