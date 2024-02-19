@@ -1,8 +1,19 @@
 """
 Python helper functions for STATE_DATA project 
 """
+def read_csv_stata(file_path):
+    """Helper function to ientify and read in CSV or STATA data file
+    """
+    if file_path.endswith('.csv'):
+        return pd.read_csv(file_path)
+    elif file_path.endswith('.dta'):
+        return pd.read_stata(file_path)
+    else:
+        raise ValueError("Unsupported file type. Please provide a '.csv' or '.dta' file.")
 
-def process_state_data_infant(df_in):
+
+def process_state_data_infant(df_in,
+    missing_unknown_variable_dict=None):
     """
     Prepares STATE_DATA INFANT file for analysis
     Applied individually to each State for processing the cleaned dataset of infant data

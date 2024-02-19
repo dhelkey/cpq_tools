@@ -15,7 +15,7 @@ import os
 import numpy as np
 from cpq_tools import computeInfo
 from STATE_DATA_setup import phi_data_path, \
-     state_infant_long_files, missing_unknown_variable_dict
+     state_infant_long_files, missing_unknown_var_dict
 from STATE_DATA import process_state_data_infant, \
             process_state_data_long
 # import STATE_DATA_setup as setup
@@ -48,7 +48,8 @@ for state, (file_infant, file_long) in state_infant_long_files.items():
         df_raw = read_csv_stata(file_path)
         df_raw['state'] = state
 
-        df_processsed = process_state_data_infant(df_raw)
+        df_processsed = process_state_data_infant(df_raw,
+            missing_unknown_variable_dict = missing_unknown_var_dict)
         #Print rows, columns of df_raw vs df_processed
         print('raw', df_raw.shape,'processed', df_processed.shape)
         #Print number of subsampled rows
