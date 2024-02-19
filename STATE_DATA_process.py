@@ -13,6 +13,7 @@ OUTPUTS (PICKLE outputs - Stored in PHI data directory)
 """
 import os
 import numpy as np
+import pandas as pd
 from cpq_tools import computeInfo
 from STATE_DATA_setup import phi_data_path, \
      state_infant_long_files, missing_unknown_var_dict
@@ -38,7 +39,7 @@ full_data_dict = {data_type: {data_length: [] for \
 
 for state, (file_infant, file_long) in state_infant_long_files.items():
     print(state)
-    compute_info.info()
+    
     file_dict = {'infant':file_infant, 'long':file_long}
     for data_type, file_use in file_dict.items():
         if data_type=='long':
@@ -48,7 +49,7 @@ for state, (file_infant, file_long) in state_infant_long_files.items():
         df_raw = read_csv_stata(file_path)
         df_raw['state'] = state
 
-        df_processsed = process_state_data_infant(df_raw,
+        df_processed = process_state_data_infant(df_raw,
             missing_unknown_variable_dict = missing_unknown_var_dict)
         #Print rows, columns of df_raw vs df_processed
         print('raw', df_raw.shape,'processed', df_processed.shape)
@@ -57,7 +58,7 @@ for state, (file_infant, file_long) in state_infant_long_files.items():
         # Calculate the number of rows to sample
         n_samples = int(len(df_processed) * p_subsample)
         # Subsample the DataFrame
-        df_subsampled = df.sample(n=n_samples)
+        df_subsampled = df_processed.sample(n=n_samples)
         print('sampled', df_subsampled.shape)
 
         quick_dict = {'full':df_processed,
@@ -73,7 +74,9 @@ for state, (file_infant, file_long) in state_infant_long_files.items():
             #and delete quick_dict, and df_processed
 
             #Append data to list: [data_type]_[full/small] (all states)
-            data_list[data_type][data_length].append(df_save)
+            full_data_dict[data_type][data_length].append(df_save)
+
+        compute_info.info() #Compute info after INFANT and LONG data imported
 
 #Export all-state STATE_DATA dataset
 for data_type in data_type_vec:
@@ -82,7 +85,11 @@ for data_type in data_type_vec:
                 full_save_file_path = os.path.join(phi_data_path,
                                                    full_save_file_name)
                 #Combine Pandas dataframes
-                full_out_df = pd.concat(data_list[data_type][data_length], axis=1)
+                full_out_list = full_data_dict[data_type][data_length]
+                if full_out_list:
+                    full_out_df = pd.concat(full_out_list, axis=1)
+                else:
+                     full_out_df = None
                 full_out_df.to_pickle(full_save_file_path)
 
 compute_info.info()
