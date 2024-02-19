@@ -46,7 +46,8 @@ class computeInfo:
         self.last_memory = current_memory
 
 # # Example usage
-# compute_info = ComputeInfo()
+# compute_info = ComputeInfo() 
+# compute_info.info() #Display initial compute info
 # .....
 # code here
 # .....
