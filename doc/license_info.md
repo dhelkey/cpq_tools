@@ -1,33 +1,18 @@
-### License Discussion
+
+### License discussion
 
 The choice of a license is an important selection when publicly releasing code and documentation.
 
-It is important to note that not explicitly providing a license during release does not avoid this choice. Code uploaded to GitHub without a license explicitly specified has rights the rights by the authors under [United States copright law](https://www.uspto.gov/ip-policy/copyright-policy/copyright-basics).
-Specifying a license allows the authors of the code control over how rights are deligated.
+It is important to note that negelecting to  explicitly specify a license during release does not avoid the choice of licensek, and copyrights are retained by default.
+
+ Code uploaded to GitHub without a licenseb specified [retains default copyrights to the authors](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)  under [United States copright law](https://www.uspto.gov/ip-policy/copyright-policy/copyright-basics).
+Specifying a license allows the authors of the code to control  how rights are deligated and what uses of the material are permissable.
 
 There are advantages and disadvantages to different licenses.
+
+
 It may be desirable to license different components of a project under different licenses.
 
-### Creative-Commons
-
-A family of open-source license, allowing some use of the work while retaining certain rights, depending on the type of license selecte.
-
-Example: 
-
-The [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
- is licensed under
-[CC BY-NC-ND 3.0](https://creativecommons.org/licenses/by-nc-nd/3.0/us/legalcode),
-requiring attribution before content may be used, restricting the content from being used commercially, and restricting the construction of derivative content without permission of the author.
-
-### Unlicense
-[Unlicense]()
-
-
-example:
-
-[youtube-dl](https://github.com/ytdl-org/youtube-dl) is a command line tool for downloading videos from [Youtube](youtube.com), released into the public domain using the Unlicense.
-
-This software is released into the [public domain](UNLICENSE) using a variant of the the Unlicense.
 
 #### Stanford Requirments
 
@@ -52,3 +37,40 @@ Stanford must have clear copyright ownership to all portions of the software
 i.e., the software must contain code written only by creators who assign copyright to Stanford. 
 It is responsibility of Stanford creators to ensure that Stanford has rights to software created at Stanford."
 ```
+
+
+
+###
+
+
+### Creative Commons
+
+[Creative Commons](https://creativecommons.org/share-your-work/cclicenses/https://creativecommons.org/share-your-work/cclicenses/) reffers to  family of open-source licenses. 
+Licenses, with varying levels of permissivness, allow the creator to specify permitted uses of the created work.
+
+Creative commons additionaly provides [**CC0**](https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt) - A public-domain license intened to allow use of a creative work, [including software](https://wiki.creativecommons.org/wiki/CC0_FAQ#May_I_apply_CC0_to_computer_software.3F_If_so.2C_is_there_a_recommended_implementation.3F), without restrictions. Attribution could [still be requested](https://wiki.creativecommons.org/wiki/CC0_FAQ#Does_CC0_require_others_who_use_my_work_to_give_me_attribution.3F), in accorance with professional standards.
+
+
+
+
+![Chart of Creative Commons licenses from ASPbio.org ](license_info\cclicenses_aspbio_org.PNG)
+
+This work by ASAPbio is licensed under a [Creative Commons Attribution 4.0 International](http://creativecommons.org/licenses/by/4.0/) license.
+
+![Python Data Science Handbook](license_info/jakevdp_handbook.PNG)
+
+The [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHandbook/)
+ is licensed under
+[CC BY-NC-ND 3.0](https://creativecommons.org/licenses/by-nc-nd/3.0/us/legalcode),
+requiring attribution before content may be used, restricting the content from being used commercially, and restricting the construction of derivative content without permission of the author.
+
+### Unlicense
+
+
+The [Unlicense]() is a short standardize way to dedicate a creative work into the public domain.
+
+
+example:
+
+[youtube-dl](https://github.com/ytdl-org/youtube-dl) is a command line tool for downloading videos from [Youtube](youtube.com), released into the public domain using the Unlicense.
+
