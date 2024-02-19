@@ -1,6 +1,8 @@
 """
 Python helper functions for STATE_DATA project 
 """
+import numpy as np
+
 def read_csv_stata(file_path):
     """Helper function to ientify and read in CSV or STATA data file
     """
@@ -54,7 +56,7 @@ def process_state_data_infant(df_in,
     return df
 
 def process_state_data_long(df_in):
-     """
+    """
      Process LONG
-     """
+    """
     pass
