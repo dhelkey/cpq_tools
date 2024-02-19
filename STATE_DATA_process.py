@@ -68,6 +68,10 @@ for state, (file_infant, file_long) in state_infant_long_files.items():
                                            state_save_file_name)
             #Save dataset [state]_[data_type]_[full/small].pkl
             df_save.to_pickle(state_save_file_path)
+
+            #To save memory, remove the next part of the code
+            #and delete quick_dict, and df_processed
+
             #Append data to list: [data_type]_[full/small] (all states)
             data_list[data_type][data_length].append(df_save)
 
