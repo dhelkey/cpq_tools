@@ -41,10 +41,10 @@ The primary languages used in the STATE_DATA project are:
 
 * Seaborn - Visualizaiton tools
 
-# License
 
-All code released into the [public domain](UNLICENSE).
+### License
 
+[License discussion](doc/license_info.md)
 
 
 
