@@ -30,16 +30,17 @@ def process_state_data_infant(df_in,
     #Append "_m" (missing) to end of variable name
     for var_without_na, na_code_vec \
         in missing_unknown_variable_dict.items():
-        var_with_na = f"{var_without_na}_m"
-        df[var_with_na] = df[var_without_na]
-        df.loc[df[var_without_na].isin(na_code_vec), \
-               var_with_na] = np.nan
+        if var_without_na in df.columns():
+            var_with_na = f"{var_without_na}_m"
+            df[var_with_na] = df[var_without_na]
+            df.loc[df[var_without_na].isin(na_code_vec), \
+                var_with_na] = np.nan
         
     #Construct date variables
-    df['year_covid'] = 0
-    df['year_aca'] = 0
-    df.loc[df['year']==2020, 'year_covid'] = 1
-    df.loc[df['year']>-2014, 'year_aca'] = 1
+    df['birthyear_covid'] = 0
+    df['birthyear_aca'] = 0
+    df.loc[df['birthyear']==2020, 'birthyear_covid'] = 1
+    df.loc[df['birthyear']>-2014, 'birthyear_aca'] = 1
 
     #Hypertension (any)
     # Conditions and their values
