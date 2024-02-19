@@ -17,7 +17,7 @@ from cpq_tools import computeInfo
 from STATE_DATA_setup import phi_data_path, \
      state_infant_long_files, missing_unknown_var_dict
 from STATE_DATA import process_state_data_infant, \
-            process_state_data_long
+            process_state_data_long, read_csv_stata
 # import STATE_DATA_setup as setup
 
 compute_info = computeInfo()
