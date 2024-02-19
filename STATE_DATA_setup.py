@@ -23,15 +23,7 @@ from STATE_DATA_PRIVATE import phi_data_path, \
 #Documentation of variables defined in this script
 
 #Define helper functions
-def read_csv_stata(file_path):
-    """Helper function to ientify and read in CSV or STATA data file
-    """
-    if file_path.endswith('.csv'):
-        return pd.read_csv(file_path)
-    elif file_path.endswith('.dta'):
-        return pd.read_stata(file_path)
-    else:
-        raise ValueError("Unsupported file type. Please provide a '.csv' or '.dta' file.")
+
     
 #Extract and parse full list of variables from STATE_DATA_documentation.xlsx
 #All variables, including extranious variables, currently unused in analysis
