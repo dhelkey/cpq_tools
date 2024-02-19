@@ -21,26 +21,6 @@ from STATE_DATA_PRIVATE import phi_data_path, \
     state_infant_long_files, file_var_documentation, file_vars_use
 
 #Documentation of variables defined in this script
-var_key_docstring = """
-setup variables:
-
-Parameters defined in PRIVATE file:
-    phi_data_path - Location of PHI data - All intermediate data is saved here.
-    state_infant_long_files  - Dictionary of STATE_DATA files
-                        Two files per state:
-                            INFANT - Infant birth records - One row per infant
-                            LONG - Infant discharge records - One row per infant/stay
-    file_var_documentation - Path to documentation file (excel)
-    file_included_vars - Path to included variable table (excel)
-
-Constructed by STATE_DATA_setup.py:
-
-     - Panas dataframe of variable information (Parsed STATE_DATA_DOCUMENTATION_FILE)
-
-    missing_unknown_var_dict - Variable values corrosponding to missing/unknown
-
-#IMPORT CODE
-"""
 
 #Define helper functions
 def read_csv_stata(file_path):
@@ -59,11 +39,6 @@ def read_csv_stata(file_path):
 #         - type (categorical, continious,...)
 #         - description
 #         - values (dictionary key)
-
-##TODO rename these
-# #
-# VARIABLE_INFO_DF, VARIABLE_KEY_DICT, \
-#       VARIABLE_DESC_DICT = 
 
 parsed_documentation = process_excel_variable_file(
     file_var_documentation,
@@ -84,10 +59,7 @@ state_data_vars_dat = pd.read_excel(file_vars_use)
 #Read STATE_DATA_vars_use.xlsx 
 #Overwrite any variable descriptions 
 #Frome this, ADD the variable names (constructed=1) to var_disc_dict
-#Right now, we are focusing on var_desc_dict
-#ADD any variables with
-
-
+#Right now, we are focusing on var_desc_dic
 #Variables with missing values encoded (We use all lowercase variable names)
 missing_unknown_var_dict = {'bcmod_route':[9],
                            'educatm':[0],

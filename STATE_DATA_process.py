@@ -7,17 +7,15 @@ NOTE -The last part of this script (combining datasets)
          requires storing all datasets in MEMORY, and may cause RAM errors without sufficient memory.
          Larger dataserts may require keeping states seperate.
     
-
 OUTPUTS (PICKLE outputs - Stored in PHI data directory)
         [STATE]_[INFANT/LONG]_[FULL/QUICK].pkl
         STATE_DATA_[INFANT/LONG]_[FULL/QUICK].pkl
-
 """
 import os
 import numpy as np
 from cpq_tools import computeInfo
 from STATE_DATA_setup import phi_data_path, \
-    missing_unknown_variable_dict, state_infant_long_files
+     state_infant_long_files, missing_unknown_variable_dict
 from STATE_DATA import process_state_data_infant, \
             process_state_data_long
 # import STATE_DATA_setup as setup
@@ -39,7 +37,7 @@ full_data_dict = {data_type: {data_length: [] for \
                      data_type in data_type_vec}
 
 for state, (file_infant, file_long) in state_infant_long_files.items():
-
+    print(state)
     compute_info.info()
     file_dict = {'infant':file_infant, 'long':file_long}
     for data_type, file_use in file_dict.items():
