@@ -24,7 +24,7 @@ def process_state_data_infant(df_in,
     df = df_in.copy()
     
     #Convert column names to lowercase
-    df.columns = df_clean.columns.str.lower()
+    df.columns = df.columns.str.lower()
 
     #Convert all Missing/Unknown variables to "N/A" (np.nan)
     #Append "_m" (missing) to end of variable name
@@ -32,8 +32,8 @@ def process_state_data_infant(df_in,
         in missing_unknown_variable_dict.items():
         var_with_na = f"{var_without_na}_m"
         df[var_with_na] = df[var_without_na]
-        df.loc[df[var_without_na].isin(na_code_vec), 
-               va_with_na] = np.nan
+        df.loc[df[var_without_na].isin(na_code_vec), \
+               var_with_na] = np.nan
         
     #Construct date variables
     df['year_covid'] = 0
