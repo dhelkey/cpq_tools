@@ -3,15 +3,13 @@
 
 The choice of a license is an important selection when publicly releasing code and documentation.
 
-It is important to note that negelecting to  explicitly specify a license during release does not avoid the choice of licensek, and copyrights are retained by default.
+It is important to note that negelecting to explicitly specify a license during release does not avoid the choice of license. By default,  copyrights are retained by the authors.
+For example, code uploaded to GitHub without a license specified [retains default copyrights to the authors](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)  under [United States copright law](https://www.uspto.gov/ip-policy/copyright-policy/copyright-basics).
 
- Code uploaded to GitHub without a licenseb specified [retains default copyrights to the authors](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository)  under [United States copright law](https://www.uspto.gov/ip-policy/copyright-policy/copyright-basics).
+
 Specifying a license allows the authors of the code to control  how rights are deligated and what uses of the material are permissable.
-
-There are advantages and disadvantages to different licenses.
-
-
-It may be desirable to license different components of a project under different licenses.
+Different license have a vareity of different advantages and disadvantages.
+It is possible and may be desirable to license different components of a project under different licenses (e.g data, methods, reports)
 
 
 #### Stanford Requirments
@@ -64,13 +62,19 @@ The [Python Data Science Handbook](https://jakevdp.github.io/PythonDataScienceHa
 [CC BY-NC-ND 3.0](https://creativecommons.org/licenses/by-nc-nd/3.0/us/legalcode),
 requiring attribution before content may be used, restricting the content from being used commercially, and restricting the construction of derivative content without permission of the author.
 
+[**CC0**](https://creativecommons.org/public-domain/cc0/) ("No rights reserved") refers to the Creative Commons license to release a work into the public domain.
+
+
+### GPL
+
+THe GNU [General Public License](https://www.gnu.org/licenses/gpl-3.0.en.html) is an open source license designed for free software.
+
+The open source image editor [GIMP](https://www.gimp.org/) is released under the [GPL license](https://gitlab.gnome.org/GNOME/gimp/-/blob/master/LICENSE).
+
 ### Unlicense
 
+The [Unlicense]() is a short standardized way to dedicate a creative work into the public domain.
 
-The [Unlicense]() is a short standardize way to dedicate a creative work into the public domain.
 
-
-example:
-
-[youtube-dl](https://github.com/ytdl-org/youtube-dl) is a command line tool for downloading videos from [Youtube](youtube.com), released into the public domain using the Unlicense.
+[youtube-dl](https://github.com/ytdl-org/youtube-dl) is a command line tool for downloading videos from [Youtube](youtube.com), released into the public domain using the [Unlicense](https://github.com/ytdl-org/youtube-dl/blob/master/LICENSE).
 
