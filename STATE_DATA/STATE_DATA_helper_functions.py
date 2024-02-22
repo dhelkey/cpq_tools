@@ -105,7 +105,7 @@ def process_state_data_infant(df_in,
     for var_without_na, na_code_vec \
         in missing_unknown_variable_dict.items():
         if var_without_na in df.columns:
-            var_with_na = f"{var_without_na}_m"
+            var_with_na = f"{var_without_na}_na"
             df[var_with_na] = df[var_without_na]
             df.loc[df[var_without_na].isin(na_code_vec), \
                 var_with_na] = np.nan
@@ -118,8 +118,7 @@ def process_state_data_infant(df_in,
     df.loc[df['birthyear']==2020, 'birthyear_covid'] = 1
     df.loc[df['birthyear']>-2014, 'birthyear_aca'] = 1
 
-    #Hypertension (any)
-    # Conditions and their values
+    #Hypertension (prepregnancy or gestational)
     hyper_conditions = [ #First condition to evaluate "True" is selected
          ((df['sl_htnchr'] == 1) | (df['sl_htnges'] == 1)), #Hypertention indicated
         ((df['sl_htnchr'] == 0) | (df['sl_htnges'] == 0)) ] #No hypertension indicated

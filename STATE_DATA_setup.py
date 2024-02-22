@@ -42,6 +42,9 @@ parsed_documentation = process_excel_variable_file(
 
 #Extracting parsed documentation (All documentation stored in these 
 #parsed dictionaries)
+
+#These dictionaries control interaction with variables
+#E.g. Descriptions are stored in var_desc_dict
 var_key_dict =  parsed_documentation['var_key_dict']
 var_desc_dict = parsed_documentation['desc_dict']
 var_type_dict = parsed_documentation['type_dict']
@@ -71,6 +74,14 @@ missing_unknown_var_dict = {'bcmod_route':[9],
     #  1. Statistical functions may drop NA values
     # 2. Default comparison category may change for categorical variables
 
+
+##Update all descripts
+#Update all keys...
+for missing_var in missing_unknown_var_dict.keys():
+    missing_na_var = f"{missing_var}_na"
+
+#vars_all_use = 
+#If var_use in unknown missing_var_dict (key), than use the appene version.
 
 #TODO Here is the main todo
 #Add recoded missing values to each of the type, description, and values dictionaries
