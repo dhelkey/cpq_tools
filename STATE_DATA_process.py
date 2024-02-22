@@ -22,6 +22,8 @@ from STATE_DATA import process_state_data_infant, \
 # import STATE_DATA_setup as setup
 
 compute_info = computeInfo()
+compute_info.info()
+
 
 #Processing parameters
 p_subsample = 0.05 #Percentage of data to subsample for quick=True datasets
@@ -44,12 +46,11 @@ for state, (file_infant, file_long) in state_infant_long_files.items():
     for data_type, file_use in file_dict.items():
         if data_type=='long':
             continue #Finalize INFANT processing code before reading in LONG code
-        file_path = phi_data_path + file_use
+        file_path = os.path.join(phi_data_path, file_use)
 
         df_raw = read_csv_stata(file_path)
-        df_raw['state'] = state
-
-        df_processed = process_state_data_infant(df_raw,
+        
+        df_processed = process_state_data_infant(df_raw, state=state,
             missing_unknown_variable_dict = missing_unknown_var_dict)
         #Print rows, columns of df_raw vs df_processed
         print('raw', df_raw.shape,'processed', df_processed.shape)
@@ -87,10 +88,11 @@ for data_type in data_type_vec:
                 #Combine Pandas dataframes
                 full_out_list = full_data_dict[data_type][data_length]
                 if full_out_list:
-                    full_out_df = pd.concat(full_out_list, axis=1)
+                    full_out_df = pd.concat(full_out_list, axis=0)
+                    full_out_df.to_pickle(full_save_file_path)
                 else:
-                     full_out_df = None
-                full_out_df.to_pickle(full_save_file_path)
+                    full_out_df = None
+                    
 
 compute_info.info()
 print('Data parsed')
