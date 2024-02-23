@@ -11,51 +11,23 @@ Requires:
 
 """
 #Imports
+import numpy as np
 import pandas as pd
 from cpq_tools import process_excel_variable_file
 
 #Import parameters and settings from the PRIVATE file (not uploaded)
-# from STATE_DATA_PRIVATE import phi_data_path, state_infant_long_files
-
 from STATE_DATA_PRIVATE import phi_data_path, \
     state_infant_long_files, file_var_documentation, file_vars_use
 
-#Documentation of variables defined in this script
-
-#Define helper functions
-
-    
-#Extract and parse full list of variables from STATE_DATA_documentation.xlsx
-#All variables, including extranious variables, currently unused in analysis
-#WE are interested in 3 dictionaries (key = variable name)
-#         - type (categorical, continious,...)
-#         - description
-#         - values (dictionary key)
-
-parsed_documentation = process_excel_variable_file(
-    file_var_documentation,
-    var_col="Variable", 
-    desc_col="Description/Label", 
-    type_col="Type",
-    values_col='Values'
-)
-
-#Extracting parsed documentation (All documentation stored in these 
-#parsed dictionaries)
-
-#These dictionaries control interaction with variables
-#E.g. Descriptions are stored in var_desc_dict
-var_key_dict =  parsed_documentation['var_key_dict']
-var_desc_dict = parsed_documentation['desc_dict']
-var_type_dict = parsed_documentation['type_dict']
-
-state_data_vars_dat = pd.read_excel(file_vars_use)
-
-#Read STATE_DATA_vars_use.xlsx 
-#Overwrite any variable descriptions 
-#Frome this, ADD the variable names (constructed=1) to var_disc_dict
-#Right now, we are focusing on var_desc_dic
-#Variables with missing values encoded (We use all lowercase variable names)
+#Identifying Missing Values
+#Constructs [variable]_na for variables with missing value codes
+#Replaces variable specific missing value codes (0 or 9, depending on variable)
+# with np.nan - "."
+# This can simplify analysis in certain situations
+# E.g. Missing value reports, consistant regression handling
+# NOTE -  Caution needed when using for regression.
+#  1. Statistical functions may drop NA values
+# 2. Default comparison category may change for categorical variables
 missing_unknown_var_dict = {'bcmod_route':[9],
                            'educatm':[0],
                            'educatv_m2':[0],
@@ -64,38 +36,48 @@ missing_unknown_var_dict = {'bcmod_route':[9],
                            'racem_exp':[9],
                            'bc_attendant':[9],
                            'insurance_mom':[0]}
-    #Identifying Missing Values
-    #Constructs [variable]_m for variables with missing value codes
-    #Replaces variable specific missing value codes (0,9,...)
-    # with np.nan "."
-    # This can simplify analysis in certain situations
-    # E.g. Missing value reports, consistant regression handling
-    # NOTE -  Caution needed when using for regression.
-    #  1. Statistical functions may drop NA values
-    # 2. Default comparison category may change for categorical variables
 
+#Extract and parse full list of variables from STATE_DATA_documentation.xlsx
+#All variables, including extranious variables, currently unused in analysis
+#WE are interested in 3 dictionaries (key = variable name)
+#         - type (categorical, continious,...)
+#         - description
+#         - values (dictionary key)
+parsed_documentation = process_excel_variable_file(
+    file_var_documentation,
+    var_col="Variable", 
+    desc_col="Description/Label", 
+    type_col="Type",
+    values_col='Values'
+)
 
-##Update all descripts
-#Update all keys...
-for missing_var in missing_unknown_var_dict.keys():
-    missing_na_var = f"{missing_var}_na"
+#These dictionaries control interaction with variables
+#Extracting parsed documentation (All documentation stored in these 
+#parsed dictionaries)
+#E.g. Descriptions are stored in var_desc_dict
+var_key_dict =  parsed_documentation['var_key_dict']
+var_desc_dict = parsed_documentation['desc_dict']
+var_type_dict = parsed_documentation['type_dict']
 
-#vars_all_use = 
-#If var_use in unknown missing_var_dict (key), than use the appene version.
+#Study specific variables/descriptions
+study_vars_df = pd.read_excel(file_vars_use)
+study_vars_all = study_vars_df['variable'] 
 
-#TODO Here is the main todo
-#Add recoded missing values to each of the type, description, and values dictionaries
+#NOTE: overwrites variable descriptions 
+for var in study_vars_all:
+    var_desc_dict[var] = study_vars_df.loc[study_vars_df['variable']==var,\
+                                            'description']
+    
+#Use constructed variables with NA values for missing values, where appropriate
+study_vars_all = [f"{var}_na"  if var in missing_unknown_var_dict.keys() else var \
+        for var in study_vars_all] 
 
-
-#Add variables names with 'np.nan' missing value coding to
-#   VARIABLE_KEY_DICT, VARIABLE_DESC_DICT
-
-#Parse list of variables included for analysis
-#Read in list of included variables #(Name, description, constructed, type (just for constructed))
-#Add in unincluded variables to the dictinaries (type, descrition, (no categorical variables constructed?))
-
-#Create a processe 
-
-
-
-#TODO - Verify we have descriptions and types for all variables, and keys for all categorical variables
+#Add recoded variables with 'np.nan' missing value coding
+#  to each of the type, description, and values dictionaries
+for var_without_na in missing_unknown_var_dict.keys():
+    var_with_na = f"{var_without_na}_na"
+    var_desc_dict[var_with_na] = var_desc_dict[var_without_na]
+    var_type_dict[var_with_na] = var_type_dict[var_without_na]
+    key_use = var_key_dict[var_without_na]
+    key_use[np.nan] = 'Missing/Unknown'
+    var_key_dict[var_with_na] = key_use

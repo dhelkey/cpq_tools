@@ -1,6 +1,5 @@
 #Test code to run the processing script on a 
 #single states data  - To test 
-
 import os
 import numpy as np
 import pandas as pd
@@ -22,7 +21,7 @@ df_raw = read_csv_stata(file_path)
 df_processed = process_state_data_infant(df_raw, state=state,
             missing_unknown_variable_dict = missing_unknown_var_dict)
        
-file_out = f"{state}_TEST.pkl"
+file_out = f"{state}_test.pkl"
 df_processed.to_pickle(file_out)
 
 print(df_processed.shape, df_processed.birth_year.value_counts())
